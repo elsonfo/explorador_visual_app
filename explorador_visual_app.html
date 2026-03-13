@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Explorador Visual</title>
+  <style>
+    :root {
+      --bg1: #eef6ff;
+      --bg2: #f8fbff;
+      --card: rgba(255,255,255,0.95);
+      --text: #16304f;
+      --muted: #5b7291;
+      --accent: #3b82f6;
+      --accent2: #8b5cf6;
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --border: rgba(124,156,201,.22);
+      --shadow: 0 16px 40px rgba(45,96,170,.12);
+      --radius: 24px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, #d9efff 0%, transparent 28%),
+        radial-gradient(circle at top right, #ede2ff 0%, transparent 25%),
+        linear-gradient(180deg, var(--bg1), var(--bg2));
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 28px 22px 40px;
+    }
+
+    .hero, .grid {
+      display: grid;
+      gap: 20px;
+    }
+
+    .hero {
+      grid-template-columns: 1.2fr 0.8fr;
+      margin-bottom: 20px;
+    }
+
+    .grid {
+      grid-template-columns: 1.05fr 0.95fr;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 24px;
+    }
+
+    .hero-badge, .pill {
+      display: inline-block;
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-weight: bold;
+      background: #eef2ff;
+      color: #4c1d95;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin: 0 0 12px 0;
+    }
+
+    h2 {
+      margin-top: 0;
+      font-size: 2rem;
+    }
+
+    .subtitle, .panel-desc, .small, .footer-note, .status, .search-box p {
+      color: var(--muted);
+    }
+
+    .hero-icons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 18px 0 22px;
+    }
+
+    .chip {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: #fff;
+      border: 1px solid var(--border);
+      font-weight: bold;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .step {
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, #fff, #f2f8ff);
+      border-radius: 20px;
+      padding: 14px 12px;
+      min-height: 96px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+      gap: 6px;
+    }
+
+    .step strong {
+      font-size: 1.3rem;
+      color: var(--accent);
+    }
+
+    .step.done {
+      background: linear-gradient(180deg, #ecfdf3, #dcfce7);
+      border-color: #9fe2b0;
+      color: #166534;
+    }
+
+    .timer-panel {
+      text-align: center;
+    }
+
+    .timer {
+      font-size: 3rem;
+      font-weight: 800;
+      margin: 6px 0 14px;
+    }
+
+    .row, .row-3, .mapa-items, .modal-search-row {
+      display: grid;
+      gap: 14px;
+    }
+
+    .row { grid-template-columns: 1fr 1fr; }
+    .row-3 { grid-template-columns: 1fr 1fr 1fr; }
+    .mapa-items { grid-template-columns: 1fr 1fr 1fr; }
+    .modal-search-row { grid-template-columns: 1fr auto; }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid rgba(116,150,194,.28);
+      border-radius: 18px;
+      font-size: 1rem;
+      background: #fff;
+      color: var(--text);
+      outline: none;
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    button {
+      border: none;
+      border-radius: 18px;
+      padding: 14px 18px;
+      font-size: 1rem;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .primary { background: linear-gradient(135deg, #3b82f6, #2563eb); color: #fff; }
+    .soft { background: linear-gradient(135deg, #dbeafe, #c7dcff); color: #1d4ed8; }
+    .success { background: linear-gradient(135deg, #dcfce7, #c4f2d5); color: #166534; }
+    .warning { background: linear-gradient(135deg, #fef3c7, #fde68a); color: #92400e; }
+    .purple { background: linear-gradient(135deg, #ede9fe, #ddd6fe); color: #5b21b6; }
+
+    .reward {
+      font-size: 1.08rem;
+      padding: 14px 16px;
+      border-radius: 20px;
+      background: #fff1e7;
+      border: 1px solid #ffd0a8;
+      color: #b45309;
+      margin-top: 16px;
+    }
+
+    .search-box {
+      margin-top: 18px;
+      padding: 16px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, #eef8ff, #f5f0ff);
+      border: 1px solid rgba(144, 172, 220, 0.24);
+      text-align: left;
+    }
+
+    .status {
+      margin-top: 16px;
+      padding: 15px 16px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, #fbfdff, #f4f8fd);
+      border: 1px solid var(--border);
+    }
+
+    .mapa {
+      display: grid;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .mapa-central {
+      border: 3px dashed #8ec0ff;
+      background: linear-gradient(180deg, #edf6ff, #eaf4ff);
+      border-radius: 22px;
+      padding: 22px 18px;
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: bold;
+      min-height: 98px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .mapa-item {
+      background: linear-gradient(180deg, #fff, #fbfdff);
+      border: 1px solid rgba(126,155,199,.22);
+      border-radius: 22px;
+      padding: 16px;
+      min-height: 152px;
+    }
+
+    .emoji {
+      font-size: 1.6rem;
+      margin-bottom: 10px;
+    }
+
+    .footer-note {
+      margin-top: 16px;
+      background: #fff;
+      border: 1px dashed rgba(130,161,204,.35);
+      border-radius: 18px;
+      padding: 14px;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(19,36,62,.48);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      z-index: 1000;
+    }
+
+    .modal-overlay.show {
+      display: flex;
+    }
+
+    .modal {
+      width: min(560px, 100%);
+      background: linear-gradient(180deg, #fff, #f8fbff);
+      border-radius: 28px;
+      padding: 26px;
+      box-shadow: 0 24px 50px rgba(24,56,98,.22);
+      border: 1px solid rgba(138,166,209,.26);
+      position: relative;
+    }
+
+    .close-btn {
+      position: absolute;
+      right: 16px;
+      top: 16px;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: #eef2ff;
+      color: #4338ca;
+      padding: 0;
+      font-size: 1.2rem;
+    }
+
+    .quick-themes {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .quick-btn {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: #fff;
+      border: 1px solid var(--border);
+      color: #244a74;
+      font-weight: bold;
+    }
+
+    @media (max-width: 980px) {
+      .hero, .grid, .row, .row-3, .mapa-items, .steps, .modal-search-row {
+        grid-template-columns: 1fr;
+      }
+      h1 { font-size: 2rem; }
+      h2 { font-size: 1.6rem; }
+      .timer { font-size: 2.4rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="hero">
+      <section class="card">
+        <div class="hero-badge">🌟 Missão do dia: pesquisar, organizar e criar</div>
+        <h1>Explorador Visual</h1>
+        <p class="subtitle">Um app acolhedor e visual para transformar curiosidade em descobertas organizadas, com foco, previsibilidade e autonomia.</p>
+
+        <div class="hero-icons">
+          <div class="chip">🔎 Pesquisar</div>
+          <div class="chip">🧠 Organizar</div>
+          <div class="chip">🎨 Criar</div>
+          <div class="chip">🏆 Conquistar</div>
+        </div>
+
+        <div class="steps">
+          <div class="step" id="step1"><strong>1</strong><span>Escolher tema</span></div>
+          <div class="step" id="step2"><strong>2</strong><span>Fazer perguntas</span></div>
+          <div class="step" id="step3"><strong>3</strong><span>Pesquisar</span></div>
+          <div class="step" id="step4"><strong>4</strong><span>Organizar</span></div>
+        </div>
+      </section>
+
+      <aside class="card timer-panel">
+        <div class="pill">⏱ Tempo visual</div>
+        <div class="timer" id="timer">10:00</div>
+
+        <div class="actions" style="justify-content:center;">
+          <button class="primary" id="startTimer">Iniciar</button>
+          <button class="soft" id="pauseTimer">Pausar</button>
+          <button class="warning" id="resetTimer">Reiniciar</button>
+        </div>
+
+        <div class="reward" id="rewardBox">🏅 Recompensa visual: complete a missão para ganhar um selo especial.</div>
+
+        <div class="search-box">
+          <h3>🌐 Pesquisar na internet</h3>
+          <p>Clique no botão abaixo para abrir uma janela amigável de pesquisa.</p>
+          <button class="purple" id="openSearchModal">Abrir janela de pesquisa</button>
+        </div>
+      </aside>
+    </div>
+
+    <div class="grid">
+      <section class="card">
+        <h2>🧭 Missão Investigador</h2>
+        <p class="panel-desc">Escolha um tema, formule perguntas e registre as descobertas com frases curtas e simples.</p>
+
+        <div class="row">
+          <div>
+            <label for="tema">Tema de interesse</label>
+            <select id="tema">
+              <option value="">Selecione um tema</option>
+              <option>Animais</option>
+              <option>Planetas</option>
+              <option>Carros</option>
+              <option>Jogos</option>
+              <option>Tecnologia</option>
+              <option>Dinossauros</option>
+              <option>Outro</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="temaLivre">Tema livre</label>
+            <input id="temaLivre" type="text" placeholder="Digite um tema, se desejar" />
+          </div>
+        </div>
+
+        <div class="row-3" style="margin-top:14px;">
+          <div>
+            <label for="p1">Pergunta 1</label>
+            <input id="p1" type="text" placeholder="O que é...?" />
+          </div>
+          <div>
+            <label for="p2">Pergunta 2</label>
+            <input id="p2" type="text" placeholder="Onde fica...?" />
+          </div>
+          <div>
+            <label for="p3">Pergunta 3</label>
+            <input id="p3" type="text" placeholder="Como funciona...?" />
+          </div>
+        </div>
+
+        <div style="margin-top:14px;">
+          <label for="pesquisa">Descobertas da pesquisa</label>
+          <textarea id="pesquisa" placeholder="Cole aqui frases curtas, palavras-chave ou descobertas encontradas na internet."></textarea>
+        </div>
+
+        <div class="actions">
+          <button class="primary" id="organizarBtn">Organizar no mapa visual</button>
+          <button class="soft" id="exemploBtn">Preencher exemplo</button>
+          <button class="warning" id="limparBtn">Limpar</button>
+          <button class="success" id="salvarBtn">Salvar descoberta (.txt)</button>
+        </div>
+
+        <div class="status" id="status">Status: aguardando início da missão.</div>
+      </section>
+
+      <section class="card">
+        <h2>🗺️ Mapa Visual</h2>
+        <p class="panel-desc">Organize a descoberta com uma ideia central e três achados simples.</p>
+
+        <div class="mapa">
+          <div class="mapa-central" id="mapaCentral">Tema principal</div>
+
+          <div class="mapa-items">
+            <div class="mapa-item">
+              <div class="emoji">💡</div>
+              <strong>Descoberta 1</strong>
+              <p class="small" id="m1">—</p>
+            </div>
+
+            <div class="mapa-item">
+              <div class="emoji">🔍</div>
+              <strong>Descoberta 2</strong>
+              <p class="small" id="m2">—</p>
+            </div>
+
+            <div class="mapa-item">
+              <div class="emoji">✨</div>
+              <strong>Descoberta 3</strong>
+              <p class="small" id="m3">—</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer-note">
+          Sugestão pedagógica: usar sessões curtas de 10 a 15 minutos, com mediação do professor e linguagem visual simples.
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="searchModal">
+    <div class="modal">
+      <button class="close-btn" id="closeSearchModal">✕</button>
+      <h2>🔎 Janela de Pesquisa</h2>
+      <p>Digite o que deseja pesquisar. Ao clicar em buscar, uma nova aba será aberta.</p>
+
+      <label for="searchQuery">O que você quer descobrir?</label>
+      <div class="modal-search-row">
+        <input id="searchQuery" type="text" placeholder="Ex.: planetas do sistema solar" />
+        <button class="primary" id="searchWebBtn">Buscar</button>
+      </div>
+
+      <div class="quick-themes">
+        <button class="quick-btn" data-query="animais da floresta">🐾 Animais</button>
+        <button class="quick-btn" data-query="planetas do sistema solar">🪐 Planetas</button>
+        <button class="quick-btn" data-query="carros esportivos">🚗 Carros</button>
+        <button class="quick-btn" data-query="dinossauros herbívoros">🦖 Dinossauros</button>
+        <button class="quick-btn" data-query="como funciona a tecnologia">💻 Tecnologia</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const timerEl = document.getElementById("timer");
+    const rewardBox = document.getElementById("rewardBox");
+    const statusEl = document.getElementById("status");
+
+    const tema = document.getElementById("tema");
+    const temaLivre = document.getElementById("temaLivre");
+    const p1 = document.getElementById("p1");
+    const p2 = document.getElementById("p2");
+    const p3 = document.getElementById("p3");
+    const pesquisa = document.getElementById("pesquisa");
+
+    const mapaCentral = document.getElementById("mapaCentral");
+    const m1 = document.getElementById("m1");
+    const m2 = document.getElementById("m2");
+    const m3 = document.getElementById("m3");
+
+    const step1 = document.getElementById("step1");
+    const step2 = document.getElementById("step2");
+    const step3 = document.getElementById("step3");
+    const step4 = document.getElementById("step4");
+
+    const startTimerBtn = document.getElementById("startTimer");
+    const pauseTimerBtn = document.getElementById("pauseTimer");
+    const resetTimerBtn = document.getElementById("resetTimer");
+    const organizarBtn = document.getElementById("organizarBtn");
+    const exemploBtn = document.getElementById("exemploBtn");
+    const limparBtn = document.getElementById("limparBtn");
+    const salvarBtn = document.getElementById("salvarBtn");
+
+    const searchModal = document.getElementById("searchModal");
+    const openSearchModal = document.getElementById("openSearchModal");
+    const closeSearchModal = document.getElementById("closeSearchModal");
+    const searchQuery = document.getElementById("searchQuery");
+    const searchWebBtn = document.getElementById("searchWebBtn");
+    const quickBtns = document.querySelectorAll(".quick-btn");
+
+    let totalSeconds = 600;
+    let currentSeconds = totalSeconds;
+    let interval = null;
+
+    function updateTimerDisplay() {
+      const min = String(Math.floor(currentSeconds / 60)).padStart(2, "0");
+      const sec = String(currentSeconds % 60).padStart(2, "0");
+      timerEl.textContent = `${min}:${sec}`;
+    }
+
+    function startTimer() {
+      if (interval) return;
+      interval = setInterval(() => {
+        if (currentSeconds > 0) {
+          currentSeconds--;
+          updateTimerDisplay();
+        } else {
+          clearInterval(interval);
+          interval = null;
+          rewardBox.textContent = "⭐ Tempo concluído! Faça uma pausa curta e celebre a missão.";
+          statusEl.textContent = "Status: tempo finalizado.";
+        }
+      }, 1000);
+      statusEl.textContent = "Status: missão em andamento.";
+    }
+
+    function pauseTimer() {
+      clearInterval(interval);
+      interval = null;
+      statusEl.textContent = "Status: missão pausada.";
+    }
+
+    function resetTimer() {
+      clearInterval(interval);
+      interval = null;
+      currentSeconds = totalSeconds;
+      updateTimerDisplay();
+      rewardBox.textContent = "🏅 Recompensa visual: complete a missão para ganhar um selo especial.";
+      statusEl.textContent = "Status: cronômetro reiniciado.";
+    }
+
+    function splitDiscoveries(text) {
+      const parts = text
+        .split(/\n|\.|;|•|\-/)
+        .map(item => item.trim())
+        .filter(Boolean);
+
+      return [
+        parts[0] || "—",
+        parts[1] || "—",
+        parts[2] || "—"
+      ];
+    }
+
+    function markSteps() {
+      step1.classList.remove("done");
+      step2.classList.remove("done");
+      step3.classList.remove("done");
+      step4.classList.remove("done");
+
+      const selectedTheme = temaLivre.value.trim() || tema.value.trim();
+
+      if (selectedTheme) step1.classList.add("done");
+      if (p1.value.trim() || p2.value.trim() || p3.value.trim()) step2.classList.add("done");
+      if (pesquisa.value.trim()) step3.classList.add("done");
+      if (m1.textContent !== "—" || m2.textContent !== "—" || m3.textContent !== "—") step4.classList.add("done");
+    }
+
+    function organizarMapa() {
+      const temaFinal = temaLivre.value.trim() || tema.value.trim() || "Tema principal";
+      mapaCentral.textContent = temaFinal;
+
+      const [d1, d2, d3] = splitDiscoveries(pesquisa.value);
+      m1.textContent = d1;
+      m2.textContent = d2;
+      m3.textContent = d3;
+
+      rewardBox.textContent = "🌟 Selo conquistado: Investigador Visual!";
+      statusEl.textContent = "Status: descoberta organizada com sucesso.";
+      markSteps();
+    }
+
+    function preencherExemplo() {
+      tema.value = "Animais";
+      temaLivre.value = "";
+      p1.value = "Que tipo de animal?";
+      p2.value = "Onde ele vive?";
+      p3.value = "Como se alimenta?";
+      pesquisa.value = "O leão é um mamífero. Vive em savanas. Alimenta-se de carne.";
+      statusEl.textContent = "Status: exemplo preenchido.";
+      markSteps();
+    }
+
+    function limparTudo() {
+      tema.value = "";
+      temaLivre.value = "";
+      p1.value = "";
+      p2.value = "";
+      p3.value = "";
+      pesquisa.value = "";
+      mapaCentral.textContent = "Tema principal";
+      m1.textContent = "—";
+      m2.textContent = "—";
+      m3.textContent = "—";
+      rewardBox.textContent = "🏅 Recompensa visual: complete a missão para ganhar um selo especial.";
+      statusEl.textContent = "Status: campos limpos.";
+      markSteps();
+    }
+
+    function salvarArquivo() {
+      const temaFinal = temaLivre.value.trim() || tema.value.trim() || "Tema não definido";
+      const conteudo = [
+        "Explorador Visual - Registro da Descoberta",
+        "",
+        "Tema: " + temaFinal,
+        "Pergunta 1: " + p1.value.trim(),
+        "Pergunta 2: " + p2.value.trim(),
+        "Pergunta 3: " + p3.value.trim(),
+        "",
+        "Descobertas:",
+        pesquisa.value.trim(),
+        "",
+        "Mapa visual:",
+        "1. " + m1.textContent,
+        "2. " + m2.textContent,
+        "3. " + m3.textContent
+      ].join("\n");
+
+      const blob = new Blob([conteudo], { type: "text/plain;charset=utf-8" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "descoberta_explorador_visual.txt";
+      link.click();
+      URL.revokeObjectURL(link.href);
+
+      statusEl.textContent = "Status: arquivo salvo com sucesso.";
+    }
+
+    function openModal() {
+      searchModal.classList.add("show");
+      searchQuery.focus();
+    }
+
+    function closeModal() {
+      searchModal.classList.remove("show");
+    }
+
+    function searchOnWeb() {
+      const query = searchQuery.value.trim();
+      if (!query) {
+        alert("Digite um tema para pesquisar.");
+        return;
+      }
+      window.open("https://www.google.com/search?q=" + encodeURIComponent(query), "_blank");
+      statusEl.textContent = 'Status: pesquisa aberta na internet sobre "' + query + '".';
+      closeModal();
+    }
+
+    startTimerBtn.addEventListener("click", startTimer);
+    pauseTimerBtn.addEventListener("click", pauseTimer);
+    resetTimerBtn.addEventListener("click", resetTimer);
+    organizarBtn.addEventListener("click", organizarMapa);
+    exemploBtn.addEventListener("click", preencherExemplo);
+    limparBtn.addEventListener("click", limparTudo);
+    salvarBtn.addEventListener("click", salvarArquivo);
+
+    openSearchModal.addEventListener("click", openModal);
+    closeSearchModal.addEventListener("click", closeModal);
+    searchWebBtn.addEventListener("click", searchOnWeb);
+
+    searchQuery.addEventListener("keydown", function(e) {
+      if (e.key === "Enter") {
+        searchOnWeb();
+      }
+    });
+
+    quickBtns.forEach(function(btn) {
+      btn.addEventListener("click", function() {
+        searchQuery.value = btn.dataset.query;
+        searchQuery.focus();
+      });
+    });
+
+    searchModal.addEventListener("click", function(e) {
+      if (e.target === searchModal) {
+        closeModal();
+      }
+    });
+
+    [tema, temaLivre, p1, p2, p3, pesquisa].forEach(function(el) {
+      el.addEventListener("input", markSteps);
+      el.addEventListener("change", markSteps);
+    });
+
+    updateTimerDisplay();
+  </script>
+</body>
+</html>
