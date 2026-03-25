@@ -1,153 +1,463 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<title>Explorador Visual Inteligente</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Explorador Visual Inteligente</title>
 
-<style>
-body {
-  font-family: Arial;
-  background: #e6eef7;
-}
+  <style>
+    :root {
+      --bg: #eaf3fb;
+      --card: #ffffff;
+      --text: #17324d;
+      --muted: #5f7693;
+      --primary: #3b82f6;
+      --primary-soft: #dbeafe;
+      --success-bg: #eef6ff;
+      --border: #d5e3f3;
+      --shadow: 0 14px 30px rgba(36, 74, 116, 0.10);
+      --radius: 22px;
+    }
 
-.container {
-  max-width: 900px;
-  margin: auto;
-  padding: 20px;
-}
+    * { box-sizing: border-box; }
 
-.card {
-  background: white;
-  padding: 25px;
-  border-radius: 20px;
-}
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
 
-input {
-  width: 100%;
-  padding: 15px;
-  border-radius: 12px;
-  border: 1px solid #ccc;
-}
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px;
+    }
 
-button {
-  padding: 12px 18px;
-  border: none;
-  border-radius: 10px;
-  margin-top: 10px;
-  cursor: pointer;
-}
+    .card {
+      background: var(--card);
+      border-radius: 26px;
+      box-shadow: var(--shadow);
+      padding: 28px;
+    }
 
-.primary {
-  background: #3b82f6;
-  color: white;
-}
+    h1 {
+      margin: 0 0 22px;
+      font-size: 3rem;
+      line-height: 1.1;
+    }
 
-.soft {
-  background: #cbd5e1;
-}
+    .title-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
 
-#resultadoImagem img {
-  width: 100%;
-  border-radius: 12px;
-  margin-top: 15px;
-}
-</style>
+    .title-icon {
+      font-size: 3rem;
+    }
 
+    .search-input {
+      width: 100%;
+      padding: 18px 20px;
+      border-radius: 18px;
+      border: 1px solid #c7d6e6;
+      font-size: 1.1rem;
+      outline: none;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+
+    button, a.action-link {
+      border: none;
+      border-radius: 16px;
+      padding: 14px 22px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .soft {
+      background: var(--primary-soft);
+      color: #163b73;
+    }
+
+    .result {
+      margin-top: 26px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .result-title {
+      font-size: 2rem;
+      font-weight: bold;
+      margin: 0;
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .image-box {
+      background: #f6faff;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      min-height: 320px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .visual-card {
+      width: 100%;
+      min-height: 280px;
+      border-radius: 22px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px;
+      color: #17324d;
+      border: 1px solid rgba(23,50,77,0.08);
+    }
+
+    .visual-emoji {
+      font-size: 5rem;
+      margin-bottom: 16px;
+    }
+
+    .visual-title {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .visual-subtitle {
+      font-size: 1.1rem;
+      color: #48627e;
+      line-height: 1.5;
+      max-width: 90%;
+    }
+
+    .info-box {
+      background: #f8fbff;
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 20px;
+    }
+
+    .info-box h3 {
+      margin: 0 0 12px;
+      font-size: 1.3rem;
+    }
+
+    .info-box p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin: 0 0 14px;
+    }
+
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .tag {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: #edf4ff;
+      color: #214c80;
+      font-size: 0.95rem;
+      font-weight: bold;
+    }
+
+    .status {
+      margin-top: 16px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: var(--success-bg);
+      border: 1px solid var(--border);
+      color: #32577f;
+      font-size: 1rem;
+    }
+
+    .examples {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .example-btn {
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: #f4f8ff;
+      border: 1px solid var(--border);
+      color: #24496f;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    @media (max-width: 900px) {
+      h1 { font-size: 2.2rem; }
+      .result-grid { grid-template-columns: 1fr; }
+      .image-box { min-height: 220px; }
+      .visual-card { min-height: 220px; }
+    }
+  </style>
 </head>
-
 <body>
+  <div class="container">
+    <div class="card">
+      <div class="title-row">
+        <div class="title-icon">🔎</div>
+        <h1>Explorador Visual Inteligente</h1>
+      </div>
 
-<div class="container">
-  <div class="card">
-    <h1>🔎 Explorador Visual Inteligente</h1>
+      <input
+        id="searchQuery"
+        class="search-input"
+        type="text"
+        placeholder="Digite ou fale... Ex.: leão, avião, robô, águia"
+      />
 
-    <input id="searchQuery" placeholder="Digite ou fale..." />
+      <div class="actions">
+        <button class="primary" onclick="buscar()">Buscar</button>
+        <button class="soft" id="voiceBtn">🎤 Falar</button>
+      </div>
 
-    <button class="primary" onclick="buscar()">Buscar</button>
-    <button class="soft" onclick="falar()">🎤 Falar</button>
+      <div class="examples">
+        <button class="example-btn" onclick="usarExemplo('leão')">Leão</button>
+        <button class="example-btn" onclick="usarExemplo('águia')">Águia</button>
+        <button class="example-btn" onclick="usarExemplo('avião')">Avião</button>
+        <button class="example-btn" onclick="usarExemplo('robô')">Robô</button>
+        <button class="example-btn" onclick="usarExemplo('carro')">Carro</button>
+        <button class="example-btn" onclick="usarExemplo('planeta')">Planeta</button>
+      </div>
 
-    <div id="resultadoImagem"></div>
-    <div id="status"></div>
+      <div id="resultadoImagem" class="result"></div>
 
+      <div id="status" class="status">Status: aguardando pesquisa.</div>
+    </div>
   </div>
-</div>
 
-<script>
+  <script>
+    const searchInput = document.getElementById("searchQuery");
+    const resultArea = document.getElementById("resultadoImagem");
+    const statusEl = document.getElementById("status");
+    const voiceBtn = document.getElementById("voiceBtn");
 
-// 🔊 VOZ
-function falar() {
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    function normalizarTexto(texto) {
+      return texto
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .trim();
+    }
 
-  if (!SpeechRecognition) {
-    alert("Use o Google Chrome");
-    return;
-  }
+    const baseConhecimento = {
+      "leao": {
+        titulo: "Leão",
+        texto: "O leão é um mamífero carnívoro. Ele vive em grupos e é conhecido por sua força, juba e rugido.",
+        curiosidades: ["mamífero", "carnívoro", "vive em savanas"],
+        emoji: "🦁",
+        cor: "linear-gradient(135deg, #fff4d6, #ffe0a3)"
+      },
+      "aguia": {
+        titulo: "Águia",
+        texto: "A águia é uma ave de rapina. Ela voa alto, tem visão forte e usa as garras para capturar alimento.",
+        curiosidades: ["ave de rapina", "voa alto", "visão aguçada"],
+        emoji: "🦅",
+        cor: "linear-gradient(135deg, #eef5ff, #d8e8ff)"
+      },
+      "aviao": {
+        titulo: "Avião",
+        texto: "O avião é um meio de transporte aéreo. Ele serve para levar pessoas e cargas pelo ar.",
+        curiosidades: ["transporte aéreo", "voa", "leva pessoas"],
+        emoji: "✈️",
+        cor: "linear-gradient(135deg, #eaf8ff, #d7f0ff)"
+      },
+      "robo": {
+        titulo: "Robô",
+        texto: "O robô é uma máquina programada para executar tarefas. Ele pode ajudar pessoas em muitos lugares.",
+        curiosidades: ["máquina", "segue comandos", "ajuda pessoas"],
+        emoji: "🤖",
+        cor: "linear-gradient(135deg, #f1f1ff, #e2dcff)"
+      },
+      "carro": {
+        titulo: "Carro",
+        texto: "O carro é um veículo usado para transportar pessoas. Ele anda em ruas e estradas.",
+        curiosidades: ["veículo", "transporta pessoas", "tem rodas"],
+        emoji: "🚗",
+        cor: "linear-gradient(135deg, #eefcff, #d8f4ff)"
+      },
+      "planeta": {
+        titulo: "Planeta",
+        texto: "Um planeta é um corpo celeste que gira ao redor de uma estrela. A Terra é o planeta onde vivemos.",
+        curiosidades: ["corpo celeste", "gira ao redor de estrela", "a Terra é um planeta"],
+        emoji: "🪐",
+        cor: "linear-gradient(135deg, #f4f0ff, #e4dcff)"
+      },
+      "cachorro": {
+        titulo: "Cachorro",
+        texto: "O cachorro é um animal doméstico muito companheiro do ser humano. Ele pode brincar, ajudar e proteger.",
+        curiosidades: ["animal doméstico", "companheiro", "protege pessoas"],
+        emoji: "🐶",
+        cor: "linear-gradient(135deg, #fff7e8, #ffe8b8)"
+      },
+      "gato": {
+        titulo: "Gato",
+        texto: "O gato é um animal doméstico ágil, curioso e independente. Ele gosta de explorar e descansar.",
+        curiosidades: ["animal doméstico", "curioso", "ágil"],
+        emoji: "🐱",
+        cor: "linear-gradient(135deg, #fff2f2, #ffe1e1)"
+      },
+      "dinossauro": {
+        titulo: "Dinossauro",
+        texto: "Os dinossauros foram animais que viveram há milhões de anos. Existiam dinossauros grandes e pequenos.",
+        curiosidades: ["viveu há milhões de anos", "muitos tipos", "alguns eram gigantes"],
+        emoji: "🦖",
+        cor: "linear-gradient(135deg, #eefde8, #daf7c9)"
+      },
+      "escola": {
+        titulo: "Escola",
+        texto: "A escola é um lugar de aprendizagem. Nela estudamos, convivemos e desenvolvemos conhecimentos.",
+        curiosidades: ["lugar de aprender", "convivência", "desenvolve conhecimentos"],
+        emoji: "🏫",
+        cor: "linear-gradient(135deg, #eef8ff, #ddeeff)"
+      }
+    };
 
-  const recognition = new SpeechRecognition();
-  recognition.lang = "pt-BR";
+    function buscarInteligente(query) {
+      const termo = normalizarTexto(query);
 
-  recognition.start();
+      if (baseConhecimento[termo]) return baseConhecimento[termo];
 
-  recognition.onresult = function(event) {
-    const texto = event.results[0][0].transcript;
-    document.getElementById("searchQuery").value = texto;
-    buscar();
-  };
-}
+      if (termo.includes("leao")) return baseConhecimento["leao"];
+      if (termo.includes("aguia")) return baseConhecimento["aguia"];
+      if (termo.includes("aviao")) return baseConhecimento["aviao"];
+      if (termo.includes("robo")) return baseConhecimento["robo"];
+      if (termo.includes("carro")) return baseConhecimento["carro"];
+      if (termo.includes("planeta")) return baseConhecimento["planeta"];
+      if (termo.includes("cachorro")) return baseConhecimento["cachorro"];
+      if (termo.includes("gato")) return baseConhecimento["gato"];
+      if (termo.includes("dinossauro")) return baseConhecimento["dinossauro"];
+      if (termo.includes("escola")) return baseConhecimento["escola"];
 
-// 🔎 BUSCA
-function buscar() {
-  const termo = document.getElementById("searchQuery").value;
+      return {
+        titulo: query,
+        texto: `Ainda não tenho uma explicação pronta para "${query}". Use o botão “Ver mais imagens” e converse com o professor para ampliar a descoberta.`,
+        curiosidades: ["tema novo", "pesquisa em construção", "ampliar com o professor"],
+        emoji: "📘",
+        cor: "linear-gradient(135deg, #f4f8ff, #e8eef7)"
+      };
+    }
 
-  if (!termo) return;
+    function mostrarResultado(termoOriginal, dados) {
+      const googleImagesUrl = `https://www.google.com/search?tbm=isch&q=${encodeURIComponent(termoOriginal)}`;
 
-  const texto = gerarTexto(termo);
-  mostrarResultado(termo, texto);
-}
+      const tagsHtml = (dados.curiosidades || [])
+        .map(item => `<span class="tag">${item}</span>`)
+        .join("");
 
-// 🧠 TEXTO INTELIGENTE
-function gerarTexto(termo) {
-  const base = termo.toLowerCase();
+      resultArea.innerHTML = `
+        <h2 class="result-title">${dados.titulo}</h2>
 
-  if (base.includes("avião"))
-    return "Avião é um meio de transporte que voa e leva pessoas e cargas pelo ar.";
+        <div class="result-grid">
+          <div class="image-box">
+            <div class="visual-card" style="background:${dados.cor};">
+              <div class="visual-emoji">${dados.emoji}</div>
+              <div class="visual-title">${dados.titulo}</div>
+              <div class="visual-subtitle">Representação visual do tema pesquisado</div>
+            </div>
+          </div>
 
-  if (base.includes("carro"))
-    return "Carro é um veículo usado para transportar pessoas.";
+          <div class="info-box">
+            <h3>Explicação simples</h3>
+            <p>${dados.texto}</p>
 
-  if (base.includes("gato"))
-    return "Gato é um animal doméstico conhecido por ser independente.";
+            <h3>Palavras importantes</h3>
+            <div class="tag-list">${tagsHtml}</div>
 
-  return "Isso é sobre " + termo + ". É algo importante para aprender.";
-}
+            <div style="margin-top:18px;">
+              <a class="action-link primary" href="${googleImagesUrl}" target="_blank">Ver mais imagens</a>
+            </div>
+          </div>
+        </div>
+      `;
+    }
 
-// 🖼️ IMAGEM COM FALLBACK (SOLUÇÃO DEFINITIVA)
-function mostrarResultado(termo, texto) {
+    function buscar() {
+      const termo = searchInput.value.trim();
 
-  const imgPrincipal = "https://source.unsplash.com/600x400/?" + termo;
-  const imgBackup = "https://loremflickr.com/600/400/" + termo;
+      if (!termo) {
+        alert("Digite ou fale um tema.");
+        return;
+      }
 
-  document.getElementById("resultadoImagem").innerHTML = `
-    <h2>${termo}</h2>
+      const resultado = buscarInteligente(termo);
+      mostrarResultado(termo, resultado);
+      statusEl.textContent = `Status: pesquisa concluída sobre "${resultado.titulo}".`;
+    }
 
-    <img 
-      src="${imgPrincipal}" 
-      onerror="this.onerror=null;this.src='${imgBackup}'"
-    />
+    function usarExemplo(valor) {
+      searchInput.value = valor;
+      buscar();
+    }
 
-    <p style="font-size:18px; margin-top:15px;">
-      ${texto}
-    </p>
+    searchInput.addEventListener("keydown", function(e) {
+      if (e.key === "Enter") buscar();
+    });
 
-    <a href="https://www.google.com/search?tbm=isch&q=${termo}" target="_blank">
-      <button class="primary">Ver mais imagens</button>
-    </a>
-  `;
+    voiceBtn.addEventListener("click", function () {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
-  document.getElementById("status").innerText = "Pesquisa concluída com sucesso";
-}
+      if (!SpeechRecognition) {
+        alert("Use o Google Chrome para ativar a voz.");
+        return;
+      }
 
-</script>
+      const recognition = new SpeechRecognition();
+      recognition.lang = "pt-BR";
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 3;
 
+      recognition.start();
+
+      recognition.onresult = function (event) {
+        let texto = event.results[0][0].transcript;
+        texto = texto.replace(/^um\s+/i, "").replace(/^uma\s+/i, "").trim();
+
+        searchInput.value = texto;
+        buscar();
+      };
+
+      recognition.onerror = function () {
+        statusEl.textContent = "Status: não consegui ouvir direito. Tente falar mais devagar.";
+      };
+    });
+  </script>
 </body>
 </html>
