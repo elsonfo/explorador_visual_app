@@ -17,6 +17,9 @@
       --border: #d5e3f3;
       --shadow: 0 14px 30px rgba(36, 74, 116, 0.10);
       --radius: 22px;
+      --tito-bg: #f5f0ff;
+      --tito-border: #e3d8ff;
+      --tito-text: #5b3bb1;
     }
 
     * { box-sizing: border-box; }
@@ -42,7 +45,7 @@
     }
 
     h1 {
-      margin: 0 0 22px;
+      margin: 0;
       font-size: 3rem;
       line-height: 1.1;
     }
@@ -51,11 +54,53 @@
       display: flex;
       align-items: center;
       gap: 14px;
-      margin-bottom: 18px;
+      margin-bottom: 10px;
     }
 
     .title-icon {
       font-size: 3rem;
+    }
+
+    .tito-box {
+      margin: 8px 0 18px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: var(--tito-bg);
+      border: 1px solid var(--tito-border);
+    }
+
+    .tito-avatar {
+      width: 58px;
+      height: 58px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff;
+      border: 1px solid var(--tito-border);
+      font-size: 2rem;
+      flex-shrink: 0;
+    }
+
+    .tito-content {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .tito-name {
+      font-size: 0.95rem;
+      font-weight: bold;
+      color: var(--tito-text);
+    }
+
+    .tito-speech {
+      font-size: 1.05rem;
+      font-weight: bold;
+      color: #274766;
     }
 
     .search-input {
@@ -95,6 +140,11 @@
     .soft {
       background: var(--primary-soft);
       color: #163b73;
+    }
+
+    .mission-btn {
+      background: #ede9fe;
+      color: #5b21b6;
     }
 
     .result {
@@ -220,11 +270,37 @@
       cursor: pointer;
     }
 
+    .mission-box {
+      margin-top: 18px;
+      padding: 14px 16px;
+      border-radius: 18px;
+      background: #faf7ff;
+      border: 1px solid #e4d9ff;
+      display: none;
+    }
+
+    .mission-box.show {
+      display: block;
+    }
+
+    .mission-title {
+      font-size: 1.05rem;
+      font-weight: bold;
+      color: #4c1d95;
+      margin-bottom: 4px;
+    }
+
+    .mission-text {
+      color: #4f6681;
+      font-size: 1rem;
+    }
+
     @media (max-width: 900px) {
       h1 { font-size: 2.2rem; }
       .result-grid { grid-template-columns: 1fr; }
       .image-box { min-height: 220px; }
       .visual-card { min-height: 220px; }
+      .tito-box { align-items: flex-start; }
     }
   </style>
 </head>
@@ -234,6 +310,14 @@
       <div class="title-row">
         <div class="title-icon">🔎</div>
         <h1>Explorador Visual Inteligente</h1>
+      </div>
+
+      <div class="tito-box">
+        <div class="tito-avatar">🤖</div>
+        <div class="tito-content">
+          <div class="tito-name">Tito</div>
+          <div class="tito-speech" id="titoSpeech">Olá, Thiago! Vamos descobrir algo interessante hoje?</div>
+        </div>
       </div>
 
       <input
@@ -246,6 +330,12 @@
       <div class="actions">
         <button class="primary" onclick="buscar()">Buscar</button>
         <button class="soft" id="voiceBtn">🎤 Falar</button>
+        <button class="mission-btn" id="missionBtn">🎲 Missão</button>
+      </div>
+
+      <div id="missionBox" class="mission-box">
+        <div class="mission-title" id="missionTitle">Missão sorteada</div>
+        <div class="mission-text" id="missionText">Sua missão aparecerá aqui.</div>
       </div>
 
       <div class="examples">
@@ -259,7 +349,7 @@
 
       <div id="resultadoImagem" class="result"></div>
 
-      <div id="status" class="status">Status: aguardando pesquisa.</div>
+      <div id="status" class="status">Status: Tito está pronto para ajudar.</div>
     </div>
   </div>
 
@@ -268,6 +358,11 @@
     const resultArea = document.getElementById("resultadoImagem");
     const statusEl = document.getElementById("status");
     const voiceBtn = document.getElementById("voiceBtn");
+    const missionBtn = document.getElementById("missionBtn");
+    const missionBox = document.getElementById("missionBox");
+    const missionTitle = document.getElementById("missionTitle");
+    const missionText = document.getElementById("missionText");
+    const titoSpeech = document.getElementById("titoSpeech");
 
     function normalizarTexto(texto) {
       return texto
@@ -350,6 +445,15 @@
       }
     };
 
+    const missoes = [
+      { termo: "leão", fala: "Sua missão é pesquisar um leão!" },
+      { termo: "robô", fala: "Sua missão é pesquisar um robô!" },
+      { termo: "planeta", fala: "Sua missão é pesquisar um planeta!" },
+      { termo: "avião", fala: "Sua missão é pesquisar um avião!" },
+      { termo: "carro", fala: "Sua missão é pesquisar um carro!" },
+      { termo: "dinossauro", fala: "Sua missão é pesquisar um dinossauro!" }
+    ];
+
     function buscarInteligente(query) {
       const termo = normalizarTexto(query);
 
@@ -420,6 +524,7 @@
       const resultado = buscarInteligente(termo);
       mostrarResultado(termo, resultado);
       statusEl.textContent = `Status: pesquisa concluída sobre "${resultado.titulo}".`;
+      titoSpeech.textContent = `Muito bem! Você pesquisou ${resultado.titulo}.`;
     }
 
     function usarExemplo(valor) {
@@ -427,9 +532,23 @@
       buscar();
     }
 
+    function sortearMissao() {
+      const indice = Math.floor(Math.random() * missoes.length);
+      const missao = missoes[indice];
+
+      searchInput.value = missao.termo;
+      missionBox.classList.add("show");
+      missionTitle.textContent = "Missão sorteada";
+      missionText.textContent = missao.fala;
+      titoSpeech.textContent = missao.fala;
+      statusEl.textContent = `Status: missão pronta — pesquisar ${missao.termo}.`;
+    }
+
     searchInput.addEventListener("keydown", function(e) {
       if (e.key === "Enter") buscar();
     });
+
+    missionBtn.addEventListener("click", sortearMissao);
 
     voiceBtn.addEventListener("click", function () {
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -456,6 +575,7 @@
 
       recognition.onerror = function () {
         statusEl.textContent = "Status: não consegui ouvir direito. Tente falar mais devagar.";
+        titoSpeech.textContent = "Não consegui ouvir direito. Vamos tentar de novo?";
       };
     });
   </script>
