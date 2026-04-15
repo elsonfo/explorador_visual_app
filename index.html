@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Explorador Visual Inteligente</title>
-
   <style>
     :root {
       --bg: #eaf3fb;
@@ -13,13 +12,15 @@
       --muted: #5f7693;
       --primary: #3b82f6;
       --primary-soft: #dbeafe;
-      --success-bg: #eef6ff;
+      --accent: #ede9fe;
+      --accent-text: #5b21b6;
+      --success: #16a34a;
+      --success-soft: #ecfdf3;
+      --warning-soft: #fff7ed;
+      --warning: #c2410c;
       --border: #d5e3f3;
       --shadow: 0 14px 30px rgba(36, 74, 116, 0.10);
       --radius: 22px;
-      --tito-bg: #f5f0ff;
-      --tito-border: #e3d8ff;
-      --tito-text: #5b3bb1;
     }
 
     * { box-sizing: border-box; }
@@ -32,22 +33,16 @@
     }
 
     .container {
-      max-width: 1100px;
+      max-width: 1200px;
       margin: 0 auto;
       padding: 20px;
     }
 
-    .card {
+    .app-shell {
       background: var(--card);
-      border-radius: 26px;
+      border-radius: 28px;
       box-shadow: var(--shadow);
-      padding: 28px;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: 3rem;
-      line-height: 1.1;
+      padding: 26px;
     }
 
     .title-row {
@@ -61,47 +56,68 @@
       font-size: 3rem;
     }
 
+    h1 {
+      margin: 0;
+      font-size: 2.8rem;
+      line-height: 1.1;
+    }
+
+    .subtitle {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .panel {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 20px;
+    }
+
     .tito-box {
-      margin: 8px 0 18px;
+      margin-bottom: 18px;
       display: flex;
       align-items: center;
       gap: 12px;
       padding: 14px 16px;
       border-radius: 18px;
-      background: var(--tito-bg);
-      border: 1px solid var(--tito-border);
+      background: #f5f0ff;
+      border: 1px solid #e3d8ff;
     }
 
     .tito-avatar {
-  width: 72px;
-  height: 72px;
-  border-radius: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #ffffff;
-  border: 1px solid var(--tito-border);
-  overflow: hidden;
-  flex-shrink: 0;
-}
-
-.tito-avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-    .tito-content {
+      width: 68px;
+      height: 68px;
+      border-radius: 18px;
       display: flex;
-      flex-direction: column;
-      gap: 4px;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
+      border: 1px solid #e3d8ff;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .tito-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
 
     .tito-name {
       font-size: 0.95rem;
       font-weight: bold;
-      color: var(--tito-text);
+      color: var(--accent-text);
+      margin-bottom: 4px;
     }
 
     .tito-speech {
@@ -110,161 +126,68 @@
       color: #274766;
     }
 
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .trail-selector {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .trail-btn,
+    .option-btn,
+    .example-btn,
+    button {
+      border: none;
+      border-radius: 16px;
+      padding: 12px 16px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .trail-btn {
+      background: #f4f8ff;
+      border: 1px solid var(--border);
+      color: #24496f;
+    }
+
+    .trail-btn.active {
+      background: var(--primary);
+      color: #fff;
+    }
+
     .search-input {
       width: 100%;
-      padding: 18px 20px;
+      padding: 17px 18px;
       border-radius: 18px;
       border: 1px solid #c7d6e6;
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       outline: none;
+      margin-bottom: 12px;
     }
 
     .actions {
       display: flex;
-      gap: 12px;
-      margin-top: 16px;
-      flex-wrap: wrap;
-    }
-
-    button, a.action-link {
-      border: none;
-      border-radius: 16px;
-      padding: 14px 22px;
-      font-size: 1rem;
-      font-weight: bold;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .primary {
-      background: var(--primary);
-      color: white;
-    }
-
-    .soft {
-      background: var(--primary-soft);
-      color: #163b73;
-    }
-
-    .mission-btn {
-      background: #ede9fe;
-      color: #5b21b6;
-    }
-
-    .result {
-      margin-top: 26px;
-      display: grid;
-      gap: 18px;
-    }
-
-    .result-title {
-      font-size: 2rem;
-      font-weight: bold;
-      margin: 0;
-    }
-
-    .result-grid {
-      display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 18px;
-      align-items: start;
-    }
-
-    .image-box {
-      background: #f6faff;
-      border: 1px solid var(--border);
-      border-radius: 22px;
-      min-height: 320px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-    }
-
-    .visual-card {
-      width: 100%;
-      min-height: 280px;
-      border-radius: 22px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 24px;
-      color: #17324d;
-      border: 1px solid rgba(23,50,77,0.08);
-    }
-
-    .visual-emoji {
-      font-size: 5rem;
-      margin-bottom: 16px;
-    }
-
-    .visual-title {
-      font-size: 2rem;
-      font-weight: bold;
-      margin-bottom: 8px;
-    }
-
-    .visual-subtitle {
-      font-size: 1.1rem;
-      color: #48627e;
-      line-height: 1.5;
-      max-width: 90%;
-    }
-
-    .info-box {
-      background: #f8fbff;
-      border: 1px solid var(--border);
-      border-radius: 22px;
-      padding: 20px;
-    }
-
-    .info-box h3 {
-      margin: 0 0 12px;
-      font-size: 1.3rem;
-    }
-
-    .info-box p {
-      font-size: 1.1rem;
-      line-height: 1.6;
-      margin: 0 0 14px;
-    }
-
-    .tag-list {
-      display: flex;
-      flex-wrap: wrap;
       gap: 10px;
-      margin-top: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
     }
 
-    .tag {
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: #edf4ff;
-      color: #214c80;
-      font-size: 0.95rem;
-      font-weight: bold;
-    }
-
-    .status {
-      margin-top: 16px;
-      padding: 14px 16px;
-      border-radius: 16px;
-      background: var(--success-bg);
-      border: 1px solid var(--border);
-      color: #32577f;
-      font-size: 1rem;
-    }
+    .primary { background: var(--primary); color: #fff; }
+    .soft { background: var(--primary-soft); color: #163b73; }
+    .accent { background: var(--accent); color: var(--accent-text); }
 
     .examples {
-      margin-top: 20px;
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 8px;
+      margin-bottom: 16px;
     }
 
     .example-btn {
@@ -273,320 +196,882 @@
       background: #f4f8ff;
       border: 1px solid var(--border);
       color: #24496f;
-      font-weight: bold;
-      cursor: pointer;
     }
 
-    .mission-box {
-      margin-top: 18px;
-      padding: 14px 16px;
+    .mission-box,
+    .vocab-box,
+    .feedback-box,
+    .status-box,
+    .question-box,
+    .result-box {
+      border-radius: 18px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      margin-top: 14px;
+    }
+
+    .mission-box { background: #faf7ff; border-color: #e4d9ff; }
+    .question-box { background: #f8fbff; }
+    .vocab-box { background: #fffdf4; border-color: #f4e7b8; display: none; }
+    .feedback-box { display: none; }
+    .feedback-success { background: var(--success-soft); border-color: #b7ebc6; color: #166534; }
+    .feedback-error { background: var(--warning-soft); border-color: #fed7aa; color: var(--warning); }
+    .status-box { background: #eef6ff; color: #32577f; }
+    .result-box { background: #f8fbff; display: none; }
+
+    .mission-title,
+    .question-title,
+    .vocab-title,
+    .result-title {
+      font-size: 1.05rem;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .question-text,
+    .vocab-text,
+    .mission-text,
+    .result-text {
+      line-height: 1.55;
+      color: #48627e;
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .option-btn {
+      text-align: left;
+      background: #fff;
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    .option-btn.selected {
+      background: #dbeafe;
+      border-color: #93c5fd;
+    }
+
+    .option-btn.correct {
+      background: #dcfce7;
+      border-color: #86efac;
+      color: #166534;
+    }
+
+    .option-btn.wrong {
+      background: #ffedd5;
+      border-color: #fdba74;
+      color: #9a3412;
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 14px;
+      align-items: start;
+      margin-top: 10px;
+    }
+
+    .visual-card {
+      min-height: 210px;
+      border-radius: 22px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 22px;
+      border: 1px solid rgba(23,50,77,0.08);
+    }
+
+    .visual-emoji {
+      font-size: 4.5rem;
+      margin-bottom: 14px;
+    }
+
+    .visual-title {
+      font-size: 1.6rem;
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+
+    .visual-subtitle {
+      font-size: 1rem;
+      color: #48627e;
+    }
+
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .tag {
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: #edf4ff;
+      color: #214c80;
+      font-size: 0.92rem;
+      font-weight: bold;
+    }
+
+    .trail-card {
+      position: sticky;
+      top: 20px;
+    }
+
+    .trail-name {
+      font-size: 1.15rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .dice-box {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+      padding: 14px;
       border-radius: 18px;
       background: #faf7ff;
       border: 1px solid #e4d9ff;
-      display: none;
     }
 
-    .mission-box.show {
-      display: block;
+    .dice-face {
+      width: 72px;
+      height: 72px;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #dbeafe, #ede9fe);
+      color: #1d4ed8;
+      font-size: 2rem;
+      font-weight: 800;
+      flex-shrink: 0;
     }
 
-    .mission-title {
-      font-size: 1.05rem;
+    .trail-progress {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin: 14px 0 18px;
+    }
+
+    .trail-step {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      border-radius: 16px;
+      background: #f8fbff;
+      border: 1px solid var(--border);
+    }
+
+    .trail-step.completed {
+      background: #ecfdf3;
+      border-color: #b7ebc6;
+    }
+
+    .step-circle {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #e5eef8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-weight: bold;
-      color: #4c1d95;
-      margin-bottom: 4px;
+      color: #3b82f6;
+      flex-shrink: 0;
     }
 
-    .mission-text {
-      color: #4f6681;
-      font-size: 1rem;
+    .trail-step.completed .step-circle {
+      background: #dcfce7;
+      color: #166534;
     }
 
-    @media (max-width: 900px) {
+    .step-label {
+      font-weight: bold;
+      margin-bottom: 3px;
+    }
+
+    .step-desc {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .reward-box {
+      padding: 16px;
+      border-radius: 18px;
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      color: #9a3412;
+      font-weight: bold;
+    }
+
+    .hidden { display: none; }
+
+    @media (max-width: 920px) {
+      .layout { grid-template-columns: 1fr; }
+      .trail-card { position: static; }
       h1 { font-size: 2.2rem; }
       .result-grid { grid-template-columns: 1fr; }
-      .image-box { min-height: 220px; }
-      .visual-card { min-height: 220px; }
-      .tito-box { align-items: flex-start; }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="card">
+    <div class="app-shell">
       <div class="title-row">
         <div class="title-icon">🔎</div>
-        <h1>Explorador Visual Inteligente</h1>
+        <div>
+          <h1>Explorador Visual Inteligente</h1>
+          <p class="subtitle">Versão 1 com trilhas, missão, pergunta com alternativas e apoio por voz.</p>
+        </div>
       </div>
 
-      <div class="tito-box">
-  <div class="tito-avatar">
-    <img src="tito.png" alt="Avatar do Tito" />
-  </div>
-  <div class="tito-content">
-    <div class="tito-name">Tito</div>
-    <div class="tito-speech" id="titoSpeech">Olá, Thiago! Vamos descobrir algo interessante hoje?</div>
-  </div>
-</div>
+      <div class="layout">
+        <section class="panel">
+          <div class="tito-box">
+            <div class="tito-avatar">
+              <img src="tito.png" alt="Avatar do Tito" onerror="this.style.display='none'; this.parentElement.innerHTML='🤖'; this.parentElement.style.fontSize='2rem';">
+            </div>
+            <div>
+              <div class="tito-name">Tito</div>
+              <div class="tito-speech" id="titoSpeech">Olá! Escolha uma trilha para começarmos.</div>
+            </div>
+          </div>
 
-      <input
-        id="searchQuery"
-        class="search-input"
-        type="text"
-        placeholder="Digite ou fale... Ex.: leão, avião, robô, águia"
-      />
+          <div class="section-title">Escolha a trilha</div>
+          <div class="trail-selector">
+            <button class="trail-btn active" id="trail1Btn">Trilha 1 — Mobilidade e Tecnologia</button>
+            <button class="trail-btn" id="trail2Btn">Trilha 2 — Venda e Cotidiano</button>
+          </div>
 
-      <div class="actions">
-        <button class="primary" onclick="buscar()">Buscar</button>
-        <button class="soft" id="voiceBtn">🎤 Falar</button>
-        <button class="mission-btn" id="missionBtn">🎲 Missão</button>
+          <div class="section-title">Pesquisa guiada</div>
+          <input id="searchQuery" class="search-input" type="text" placeholder="Digite ou fale o tema da missão" />
+
+          <div class="actions">
+            <button class="primary" id="searchBtn">Buscar</button>
+            <button class="soft" id="voiceBtn">🎤 Falar</button>
+            <button class="accent" id="missionBtn">🎲 Missão</button>
+            <button class="soft" id="speakBtn">🔊 Ouvir</button>
+          </div>
+
+          <div class="examples" id="examplesBox"></div>
+
+          <div class="mission-box" id="missionBox">
+            <div class="mission-title">Missão atual</div>
+            <div class="mission-text" id="missionText">Clique em “🎲 Missão” para sortear.</div>
+          </div>
+
+          <div class="result-box" id="resultBox">
+            <div class="result-title">Resultado da pesquisa</div>
+            <div class="result-grid">
+              <div class="visual-card" id="visualCard">
+                <div class="visual-emoji" id="visualEmoji">📘</div>
+                <div class="visual-title" id="visualTitle">Tema</div>
+                <div class="visual-subtitle">Representação visual do tema</div>
+              </div>
+              <div>
+                <div class="result-text" id="resultText">A explicação simples aparecerá aqui.</div>
+                <div class="tag-list" id="tagList"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="question-box hidden" id="questionBox">
+            <div class="question-title" id="questionTitle">Pergunta 1</div>
+            <div class="question-text" id="questionText">A pergunta aparecerá aqui.</div>
+            <div class="actions" style="margin-top:10px; margin-bottom:0;">
+              <button class="soft" id="readQuestionBtn">🔊 Ouvir pergunta</button>
+              <button class="soft" id="vocabBtn">💡 Explicar palavra</button>
+            </div>
+            <div class="options-grid" id="optionsGrid"></div>
+          </div>
+
+          <div class="vocab-box" id="vocabBox">
+            <div class="vocab-title" id="vocabTitle">Palavra de apoio</div>
+            <div class="vocab-text" id="vocabText">A explicação da palavra aparecerá aqui.</div>
+            <div class="actions" style="margin-bottom:0;">
+              <button class="soft" id="readVocabBtn">🔊 Ouvir palavra</button>
+              <button class="soft" id="closeVocabBtn">Entendi</button>
+            </div>
+          </div>
+
+          <div class="feedback-box" id="feedbackBox"></div>
+          <div class="status-box" id="statusBox">Status: aguardando início da trilha.</div>
+        </section>
+
+        <aside class="panel trail-card">
+          <div class="trail-name" id="trailName">Trilha 1 — Mobilidade e Tecnologia</div>
+
+          <div class="dice-box">
+            <div class="dice-face" id="diceFace">?</div>
+            <div>
+              <div style="font-weight:bold; margin-bottom:4px;">Dado da missão</div>
+              <div style="color: var(--muted);">Clique em “🎲 Missão” para sortear a etapa atual.</div>
+            </div>
+          </div>
+
+          <div class="trail-progress" id="trailProgress"></div>
+
+          <div class="reward-box" id="rewardBox">🏅 Recompensa: complete as 3 perguntas da missão para ganhar uma estrela.</div>
+        </aside>
       </div>
-
-      <div id="missionBox" class="mission-box">
-        <div class="mission-title" id="missionTitle">Missão sorteada</div>
-        <div class="mission-text" id="missionText">Sua missão aparecerá aqui.</div>
-      </div>
-
-      <div class="examples">
-        <button class="example-btn" onclick="usarExemplo('leão')">Leão</button>
-        <button class="example-btn" onclick="usarExemplo('águia')">Águia</button>
-        <button class="example-btn" onclick="usarExemplo('avião')">Avião</button>
-        <button class="example-btn" onclick="usarExemplo('robô')">Robô</button>
-        <button class="example-btn" onclick="usarExemplo('carro')">Carro</button>
-        <button class="example-btn" onclick="usarExemplo('planeta')">Planeta</button>
-      </div>
-
-      <div id="resultadoImagem" class="result"></div>
-
-      <div id="status" class="status">Status: Tito está pronto para ajudar.</div>
     </div>
   </div>
 
   <script>
-    const searchInput = document.getElementById("searchQuery");
-    const resultArea = document.getElementById("resultadoImagem");
-    const statusEl = document.getElementById("status");
-    const voiceBtn = document.getElementById("voiceBtn");
-    const missionBtn = document.getElementById("missionBtn");
-    const missionBox = document.getElementById("missionBox");
-    const missionTitle = document.getElementById("missionTitle");
-    const missionText = document.getElementById("missionText");
-    const titoSpeech = document.getElementById("titoSpeech");
-
-    function normalizarTexto(texto) {
-      return texto
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .trim();
-    }
-
-    const baseConhecimento = {
-      "leao": {
-        titulo: "Leão",
-        texto: "O leão é um mamífero carnívoro. Ele vive em grupos e é conhecido por sua força, juba e rugido.",
-        curiosidades: ["mamífero", "carnívoro", "vive em savanas"],
-        emoji: "🦁",
-        cor: "linear-gradient(135deg, #fff4d6, #ffe0a3)"
+    const trilhas = {
+      trilha1: {
+        nome: 'Trilha 1 — Mobilidade e Tecnologia',
+        exemplos: ['carro', 'carro autônomo', 'robô'],
+        missoes: [
+          {
+            dado: 1,
+            termo: 'carro',
+            fala: 'Sua missão é pesquisar sobre carro.',
+            info: {
+              titulo: 'Carro',
+              texto: 'O carro é um veículo usado para transportar pessoas. Ele anda em ruas e estradas.',
+              curiosidades: ['veículo', 'transporta pessoas', 'tem rodas'],
+              emoji: '🚗',
+              cor: 'linear-gradient(135deg, #eefcff, #d8f4ff)'
+            },
+            perguntas: [
+              {
+                titulo: 'Pergunta 1',
+                texto: 'O carro anda na rua, no céu ou no mar?',
+                opcoes: ['rua', 'céu', 'mar'],
+                correta: 'rua',
+                apoio: { palavra: 'rua', explicacao: 'Rua é o lugar por onde carros passam.' }
+              },
+              {
+                titulo: 'Pergunta 2',
+                texto: 'O carro tem roda, asa ou barbatana?',
+                opcoes: ['roda', 'asa', 'barbatana'],
+                correta: 'roda',
+                apoio: { palavra: 'roda', explicacao: 'Roda é a parte redonda que ajuda o carro a andar.' }
+              },
+              {
+                titulo: 'Pergunta 3',
+                texto: 'O carro é um veículo, uma fruta ou um peixe?',
+                opcoes: ['veículo', 'fruta', 'peixe'],
+                correta: 'veículo',
+                apoio: { palavra: 'veículo', explicacao: 'Veículo é um meio de transporte.' }
+              }
+            ]
+          },
+          {
+            dado: 2,
+            termo: 'carro autônomo',
+            fala: 'Sua missão é pesquisar sobre carro autônomo.',
+            info: {
+              titulo: 'Carro autônomo',
+              texto: 'O carro autônomo é um carro que pode usar tecnologia para andar com pouca ajuda humana.',
+              curiosidades: ['anda sozinho', 'usa tecnologia', 'é um carro'],
+              emoji: '🚘',
+              cor: 'linear-gradient(135deg, #eef6ff, #dbeafe)'
+            },
+            perguntas: [
+              {
+                titulo: 'Pergunta 1',
+                texto: 'O carro autônomo anda sozinho, voando ou nadando?',
+                opcoes: ['sozinho', 'voando', 'nadando'],
+                correta: 'sozinho',
+                apoio: { palavra: 'autônomo', explicacao: 'Autônomo quer dizer que faz algo sozinho.' }
+              },
+              {
+                titulo: 'Pergunta 2',
+                texto: 'Ele usa tecnologia, areia ou folhas?',
+                opcoes: ['tecnologia', 'areia', 'folhas'],
+                correta: 'tecnologia',
+                apoio: { palavra: 'tecnologia', explicacao: 'Tecnologia é um recurso criado para ajudar pessoas.' }
+              },
+              {
+                titulo: 'Pergunta 3',
+                texto: 'O carro autônomo é um carro, um picolé ou um leão?',
+                opcoes: ['carro', 'picolé', 'leão'],
+                correta: 'carro',
+                apoio: { palavra: 'carro', explicacao: 'Carro é um veículo usado para transporte.' }
+              }
+            ]
+          },
+          {
+            dado: 3,
+            termo: 'robô',
+            fala: 'Sua missão é pesquisar sobre robô.',
+            info: {
+              titulo: 'Robô',
+              texto: 'O robô é uma máquina programada para executar tarefas. Ele pode ajudar pessoas em muitos lugares.',
+              curiosidades: ['máquina', 'segue comandos', 'ajuda pessoas'],
+              emoji: '🤖',
+              cor: 'linear-gradient(135deg, #f1f1ff, #e2dcff)'
+            },
+            perguntas: [
+              {
+                titulo: 'Pergunta 1',
+                texto: 'O robô é uma máquina, uma planta ou uma fruta?',
+                opcoes: ['máquina', 'planta', 'fruta'],
+                correta: 'máquina',
+                apoio: { palavra: 'máquina', explicacao: 'Máquina é um aparelho criado para fazer alguma tarefa.' }
+              },
+              {
+                titulo: 'Pergunta 2',
+                texto: 'O robô ajuda em tarefas, voos de pássaro ou mergulhos no mar?',
+                opcoes: ['tarefas', 'voos de pássaro', 'mergulhos no mar'],
+                correta: 'tarefas',
+                apoio: { palavra: 'tarefas', explicacao: 'Tarefas são coisas que precisamos fazer.' }
+              },
+              {
+                titulo: 'Pergunta 3',
+                texto: 'O robô segue comandos, sementes ou sabores?',
+                opcoes: ['comandos', 'sementes', 'sabores'],
+                correta: 'comandos',
+                apoio: { palavra: 'comandos', explicacao: 'Comando é uma instrução para executar uma ação.' }
+              }
+            ]
+          }
+        ]
       },
-      "aguia": {
-        titulo: "Águia",
-        texto: "A águia é uma ave de rapina. Ela voa alto, tem visão forte e usa as garras para capturar alimento.",
-        curiosidades: ["ave de rapina", "voa alto", "visão aguçada"],
-        emoji: "🦅",
-        cor: "linear-gradient(135deg, #eef5ff, #d8e8ff)"
-      },
-      "aviao": {
-        titulo: "Avião",
-        texto: "O avião é um meio de transporte aéreo. Ele serve para levar pessoas e cargas pelo ar.",
-        curiosidades: ["transporte aéreo", "voa", "leva pessoas"],
-        emoji: "✈️",
-        cor: "linear-gradient(135deg, #eaf8ff, #d7f0ff)"
-      },
-      "robo": {
-        titulo: "Robô",
-        texto: "O robô é uma máquina programada para executar tarefas. Ele pode ajudar pessoas em muitos lugares.",
-        curiosidades: ["máquina", "segue comandos", "ajuda pessoas"],
-        emoji: "🤖",
-        cor: "linear-gradient(135deg, #f1f1ff, #e2dcff)"
-      },
-      "carro": {
-        titulo: "Carro",
-        texto: "O carro é um veículo usado para transportar pessoas. Ele anda em ruas e estradas.",
-        curiosidades: ["veículo", "transporta pessoas", "tem rodas"],
-        emoji: "🚗",
-        cor: "linear-gradient(135deg, #eefcff, #d8f4ff)"
-      },
-      "planeta": {
-        titulo: "Planeta",
-        texto: "Um planeta é um corpo celeste que gira ao redor de uma estrela. A Terra é o planeta onde vivemos.",
-        curiosidades: ["corpo celeste", "gira ao redor de estrela", "a Terra é um planeta"],
-        emoji: "🪐",
-        cor: "linear-gradient(135deg, #f4f0ff, #e4dcff)"
-      },
-      "cachorro": {
-        titulo: "Cachorro",
-        texto: "O cachorro é um animal doméstico muito companheiro do ser humano. Ele pode brincar, ajudar e proteger.",
-        curiosidades: ["animal doméstico", "companheiro", "protege pessoas"],
-        emoji: "🐶",
-        cor: "linear-gradient(135deg, #fff7e8, #ffe8b8)"
-      },
-      "gato": {
-        titulo: "Gato",
-        texto: "O gato é um animal doméstico ágil, curioso e independente. Ele gosta de explorar e descansar.",
-        curiosidades: ["animal doméstico", "curioso", "ágil"],
-        emoji: "🐱",
-        cor: "linear-gradient(135deg, #fff2f2, #ffe1e1)"
-      },
-      "dinossauro": {
-        titulo: "Dinossauro",
-        texto: "Os dinossauros foram animais que viveram há milhões de anos. Existiam dinossauros grandes e pequenos.",
-        curiosidades: ["viveu há milhões de anos", "muitos tipos", "alguns eram gigantes"],
-        emoji: "🦖",
-        cor: "linear-gradient(135deg, #eefde8, #daf7c9)"
-      },
-      "escola": {
-        titulo: "Escola",
-        texto: "A escola é um lugar de aprendizagem. Nela estudamos, convivemos e desenvolvemos conhecimentos.",
-        curiosidades: ["lugar de aprender", "convivência", "desenvolve conhecimentos"],
-        emoji: "🏫",
-        cor: "linear-gradient(135deg, #eef8ff, #ddeeff)"
+      trilha2: {
+        nome: 'Trilha 2 — Venda e Cotidiano',
+        exemplos: ['bala', 'picolé', 'dinheiro'],
+        missoes: [
+          {
+            dado: 1,
+            termo: 'bala',
+            fala: 'Sua missão é pesquisar sobre bala.',
+            info: {
+              titulo: 'Bala',
+              texto: 'A bala é um alimento doce. Ela pode ter cores, sabores e tamanhos diferentes.',
+              curiosidades: ['doce', 'comida', 'tem cor'],
+              emoji: '🍬',
+              cor: 'linear-gradient(135deg, #fff2f7, #ffe0ef)'
+            },
+            perguntas: [
+              {
+                titulo: 'Pergunta 1',
+                texto: 'A bala é doce, salgada ou metálica?',
+                opcoes: ['doce', 'salgada', 'metálica'],
+                correta: 'doce',
+                apoio: { palavra: 'doce', explicacao: 'Doce é um alimento com sabor açucarado.' }
+              },
+              {
+                titulo: 'Pergunta 2',
+                texto: 'A bala é comida, carro ou planeta?',
+                opcoes: ['comida', 'carro', 'planeta'],
+                correta: 'comida',
+                apoio: { palavra: 'comida', explicacao: 'Comida é algo que a pessoa pode comer.' }
+              },
+              {
+                titulo: 'Pergunta 3',
+                texto: 'A bala pode ter cor, asa ou motor?',
+                opcoes: ['cor', 'asa', 'motor'],
+                correta: 'cor',
+                apoio: { palavra: 'cor', explicacao: 'Cor é a aparência como vermelho, azul ou amarelo.' }
+              }
+            ]
+          },
+          {
+            dado: 2,
+            termo: 'picolé',
+            fala: 'Sua missão é pesquisar sobre picolé.',
+            info: {
+              titulo: 'Picolé',
+              texto: 'O picolé é um alimento gelado. Ele pode ter muitos sabores e é feito para comer.',
+              curiosidades: ['gelado', 'para comer', 'tem sabor'],
+              emoji: '🍧',
+              cor: 'linear-gradient(135deg, #eefcff, #d8f4ff)'
+            },
+            perguntas: [
+              {
+                titulo: 'Pergunta 1',
+                texto: 'O picolé é gelado, quente ou seco?',
+                opcoes: ['gelado', 'quente', 'seco'],
+                correta: 'gelado',
+                apoio: { palavra: 'gelado', explicacao: 'Gelado quer dizer muito frio.' }
+              },
+              {
+                titulo: 'Pergunta 2',
+                texto: 'O picolé é para comer, dirigir ou voar?',
+                opcoes: ['comer', 'dirigir', 'voar'],
+                correta: 'comer',
+                apoio: { palavra: 'comer', explicacao: 'Comer é colocar o alimento na boca.' }
+              },
+              {
+                titulo: 'Pergunta 3',
+                texto: 'O picolé pode ter sabor, roda ou asa?',
+                opcoes: ['sabor', 'roda', 'asa'],
+                correta: 'sabor',
+                apoio: { palavra: 'sabor', explicacao: 'Sabor é o gosto do alimento.' }
+              }
+            ]
+          },
+          {
+            dado: 3,
+            termo: 'dinheiro',
+            fala: 'Sua missão é pesquisar sobre dinheiro e compra.',
+            info: {
+              titulo: 'Dinheiro',
+              texto: 'O dinheiro serve para comprar coisas. Ele faz parte do cotidiano das pessoas.',
+              curiosidades: ['comprar', 'cliente', 'dia a dia'],
+              emoji: '💵',
+              cor: 'linear-gradient(135deg, #eefde8, #daf7c9)'
+            },
+            perguntas: [
+              {
+                titulo: 'Pergunta 1',
+                texto: 'O dinheiro serve para comprar, nadar ou voar?',
+                opcoes: ['comprar', 'nadar', 'voar'],
+                correta: 'comprar',
+                apoio: { palavra: 'comprar', explicacao: 'Comprar é pegar algo dando dinheiro em troca.' }
+              },
+              {
+                titulo: 'Pergunta 2',
+                texto: 'Quem compra pode ser um cliente, um planeta ou um carro?',
+                opcoes: ['cliente', 'planeta', 'carro'],
+                correta: 'cliente',
+                apoio: { palavra: 'cliente', explicacao: 'Cliente é a pessoa que compra.' }
+              },
+              {
+                titulo: 'Pergunta 3',
+                texto: 'Comprar e vender fazem parte do cotidiano, do oceano ou do céu?',
+                opcoes: ['cotidiano', 'oceano', 'céu'],
+                correta: 'cotidiano',
+                apoio: { palavra: 'cotidiano', explicacao: 'Cotidiano são as coisas do dia a dia.' }
+              }
+            ]
+          }
+        ]
       }
     };
 
-    const missoes = [
-      { termo: "leão", fala: "Sua missão é pesquisar um leão!" },
-      { termo: "robô", fala: "Sua missão é pesquisar um robô!" },
-      { termo: "planeta", fala: "Sua missão é pesquisar um planeta!" },
-      { termo: "avião", fala: "Sua missão é pesquisar um avião!" },
-      { termo: "carro", fala: "Sua missão é pesquisar um carro!" },
-      { termo: "dinossauro", fala: "Sua missão é pesquisar um dinossauro!" }
-    ];
+    const trail1Btn = document.getElementById('trail1Btn');
+    const trail2Btn = document.getElementById('trail2Btn');
+    const trailName = document.getElementById('trailName');
+    const examplesBox = document.getElementById('examplesBox');
+    const searchInput = document.getElementById('searchQuery');
+    const searchBtn = document.getElementById('searchBtn');
+    const missionBtn = document.getElementById('missionBtn');
+    const voiceBtn = document.getElementById('voiceBtn');
+    const speakBtn = document.getElementById('speakBtn');
+    const missionText = document.getElementById('missionText');
+    const missionBox = document.getElementById('missionBox');
+    const resultBox = document.getElementById('resultBox');
+    const visualCard = document.getElementById('visualCard');
+    const visualEmoji = document.getElementById('visualEmoji');
+    const visualTitle = document.getElementById('visualTitle');
+    const resultText = document.getElementById('resultText');
+    const tagList = document.getElementById('tagList');
+    const questionBox = document.getElementById('questionBox');
+    const questionTitle = document.getElementById('questionTitle');
+    const questionText = document.getElementById('questionText');
+    const optionsGrid = document.getElementById('optionsGrid');
+    const feedbackBox = document.getElementById('feedbackBox');
+    const statusBox = document.getElementById('statusBox');
+    const titoSpeech = document.getElementById('titoSpeech');
+    const trailProgress = document.getElementById('trailProgress');
+    const rewardBox = document.getElementById('rewardBox');
+    const diceFace = document.getElementById('diceFace');
+    const vocabBtn = document.getElementById('vocabBtn');
+    const vocabBox = document.getElementById('vocabBox');
+    const vocabTitle = document.getElementById('vocabTitle');
+    const vocabText = document.getElementById('vocabText');
+    const readQuestionBtn = document.getElementById('readQuestionBtn');
+    const readVocabBtn = document.getElementById('readVocabBtn');
+    const closeVocabBtn = document.getElementById('closeVocabBtn');
 
-    function buscarInteligente(query) {
-      const termo = normalizarTexto(query);
+    let trilhaAtualKey = 'trilha1';
+    let missaoAtual = null;
+    let perguntaAtualIndex = 0;
+    let respostaSelecionada = null;
+    let acertos = 0;
+    let ultimaBusca = '';
 
-      if (baseConhecimento[termo]) return baseConhecimento[termo];
-
-      if (termo.includes("leao")) return baseConhecimento["leao"];
-      if (termo.includes("aguia")) return baseConhecimento["aguia"];
-      if (termo.includes("aviao")) return baseConhecimento["aviao"];
-      if (termo.includes("robo")) return baseConhecimento["robo"];
-      if (termo.includes("carro")) return baseConhecimento["carro"];
-      if (termo.includes("planeta")) return baseConhecimento["planeta"];
-      if (termo.includes("cachorro")) return baseConhecimento["cachorro"];
-      if (termo.includes("gato")) return baseConhecimento["gato"];
-      if (termo.includes("dinossauro")) return baseConhecimento["dinossauro"];
-      if (termo.includes("escola")) return baseConhecimento["escola"];
-
-      return {
-        titulo: query,
-        texto: `Ainda não tenho uma explicação pronta para "${query}". Use o botão “Ver mais imagens” e converse com o professor para ampliar a descoberta.`,
-        curiosidades: ["tema novo", "pesquisa em construção", "ampliar com o professor"],
-        emoji: "📘",
-        cor: "linear-gradient(135deg, #f4f8ff, #e8eef7)"
-      };
+    function falarTexto(texto) {
+      const synth = window.speechSynthesis;
+      if (!synth) return;
+      synth.cancel();
+      const utter = new SpeechSynthesisUtterance(texto);
+      utter.lang = 'pt-BR';
+      utter.rate = 0.95;
+      synth.speak(utter);
     }
 
-    function mostrarResultado(termoOriginal, dados) {
-      const googleImagesUrl = `https://www.google.com/search?tbm=isch&q=${encodeURIComponent(termoOriginal)}`;
-
-      const tagsHtml = (dados.curiosidades || [])
-        .map(item => `<span class="tag">${item}</span>`)
-        .join("");
-
-      resultArea.innerHTML = `
-        <h2 class="result-title">${dados.titulo}</h2>
-
-        <div class="result-grid">
-          <div class="image-box">
-            <div class="visual-card" style="background:${dados.cor};">
-              <div class="visual-emoji">${dados.emoji}</div>
-              <div class="visual-title">${dados.titulo}</div>
-              <div class="visual-subtitle">Representação visual do tema pesquisado</div>
-            </div>
-          </div>
-
-          <div class="info-box">
-            <h3>Explicação simples</h3>
-            <p>${dados.texto}</p>
-
-            <h3>Palavras importantes</h3>
-            <div class="tag-list">${tagsHtml}</div>
-
-            <div style="margin-top:18px;">
-              <a class="action-link primary" href="${googleImagesUrl}" target="_blank">Ver mais imagens</a>
-            </div>
-          </div>
-        </div>
-      `;
+    function setStatus(texto) {
+      statusBox.textContent = `Status: ${texto}`;
     }
 
-    function buscar() {
-      const termo = searchInput.value.trim();
+    function setTito(texto) {
+      titoSpeech.textContent = texto;
+    }
 
-      if (!termo) {
-        alert("Digite ou fale um tema.");
-        return;
+    function renderExamples() {
+      const trilha = trilhas[trilhaAtualKey];
+      examplesBox.innerHTML = '';
+      trilha.exemplos.forEach(ex => {
+        const btn = document.createElement('button');
+        btn.className = 'example-btn';
+        btn.textContent = ex.charAt(0).toUpperCase() + ex.slice(1);
+        btn.addEventListener('click', () => {
+          searchInput.value = ex;
+          buscarTema();
+        });
+        examplesBox.appendChild(btn);
+      });
+    }
+
+    function renderTrailProgress() {
+      trailProgress.innerHTML = '';
+      const total = missaoAtual ? missaoAtual.perguntas.length : 3;
+      for (let i = 0; i < total; i++) {
+        const step = document.createElement('div');
+        step.className = 'trail-step' + (i < acertos ? ' completed' : '');
+        step.innerHTML = `
+          <div class="step-circle">${i < acertos ? '✓' : i + 1}</div>
+          <div>
+            <div class="step-label">Etapa ${i + 1}</div>
+            <div class="step-desc">${i < acertos ? 'Concluída' : 'Aguardando resposta'}</div>
+          </div>
+        `;
+        trailProgress.appendChild(step);
       }
-
-      const resultado = buscarInteligente(termo);
-      mostrarResultado(termo, resultado);
-      statusEl.textContent = `Status: pesquisa concluída sobre "${resultado.titulo}".`;
-      titoSpeech.textContent = `Muito bem! Você pesquisou ${resultado.titulo}.`;
     }
 
-    function usarExemplo(valor) {
-      searchInput.value = valor;
-      buscar();
+    function selecionarTrilha(key) {
+      trilhaAtualKey = key;
+      trail1Btn.classList.toggle('active', key === 'trilha1');
+      trail2Btn.classList.toggle('active', key === 'trilha2');
+      trailName.textContent = trilhas[key].nome;
+      resetMissaoUI();
+      renderExamples();
+      renderTrailProgress();
+      setTito('Muito bem! Agora clique em “🎲 Missão” para começar.');
+      setStatus('trilha selecionada. Pronto para sortear a missão.');
+    }
+
+    function resetMissaoUI() {
+      missaoAtual = null;
+      perguntaAtualIndex = 0;
+      respostaSelecionada = null;
+      acertos = 0;
+      diceFace.textContent = '?';
+      missionText.textContent = 'Clique em “🎲 Missão” para sortear.';
+      resultBox.style.display = 'none';
+      questionBox.classList.add('hidden');
+      feedbackBox.style.display = 'none';
+      vocabBox.style.display = 'none';
+      rewardBox.textContent = '🏅 Recompensa: complete as 3 perguntas da missão para ganhar uma estrela.';
     }
 
     function sortearMissao() {
-      const indice = Math.floor(Math.random() * missoes.length);
-      const missao = missoes[indice];
-
-      searchInput.value = missao.termo;
-      missionBox.classList.add("show");
-      missionTitle.textContent = "Missão sorteada";
-      missionText.textContent = missao.fala;
-      titoSpeech.textContent = missao.fala;
-      statusEl.textContent = `Status: missão pronta — pesquisar ${missao.termo}.`;
+      const trilha = trilhas[trilhaAtualKey];
+      const indice = Math.floor(Math.random() * trilha.missoes.length);
+      missaoAtual = trilha.missoes[indice];
+      perguntaAtualIndex = 0;
+      respostaSelecionada = null;
+      acertos = 0;
+      diceFace.textContent = missaoAtual.dado;
+      missionText.textContent = missaoAtual.fala;
+      searchInput.value = missaoAtual.termo;
+      feedbackBox.style.display = 'none';
+      vocabBox.style.display = 'none';
+      resultBox.style.display = 'none';
+      questionBox.classList.add('hidden');
+      renderTrailProgress();
+      setTito(missaoAtual.fala);
+      setStatus(`missão sorteada: ${missaoAtual.termo}. Faça a pesquisa.`);
     }
 
-    searchInput.addEventListener("keydown", function(e) {
-      if (e.key === "Enter") buscar();
+    function buscarTema() {
+      const termo = searchInput.value.trim();
+      if (!termo) {
+        alert('Digite ou fale um tema.');
+        return;
+      }
+
+      ultimaBusca = termo;
+      let info = null;
+
+      if (missaoAtual && termo.toLowerCase().includes(missaoAtual.termo.toLowerCase())) {
+        info = missaoAtual.info;
+      } else {
+        info = {
+          titulo: termo,
+          texto: `Tema pesquisado: ${termo}. Converse com o professor e use palavras simples para explorar esse assunto.`,
+          curiosidades: ['tema novo', 'pesquisa guiada', 'descoberta'],
+          emoji: '📘',
+          cor: 'linear-gradient(135deg, #f4f8ff, #e8eef7)'
+        };
+      }
+
+      visualCard.style.background = info.cor;
+      visualEmoji.textContent = info.emoji;
+      visualTitle.textContent = info.titulo;
+      resultText.textContent = info.texto;
+      tagList.innerHTML = info.curiosidades.map(item => `<span class="tag">${item}</span>`).join('');
+      resultBox.style.display = 'block';
+
+      if (missaoAtual) {
+        renderPerguntaAtual();
+        setTito('Ótimo! Agora vamos responder a pergunta.');
+        setStatus(`pesquisa concluída sobre ${info.titulo}. Hora da pergunta.`);
+      } else {
+        setTito(`Muito bem! Você pesquisou ${info.titulo}.`);
+        setStatus(`pesquisa concluída sobre ${info.titulo}.`);
+      }
+    }
+
+    function renderPerguntaAtual() {
+      if (!missaoAtual) return;
+      const pergunta = missaoAtual.perguntas[perguntaAtualIndex];
+      if (!pergunta) {
+        finalizarMissao();
+        return;
+      }
+
+      questionTitle.textContent = pergunta.titulo;
+      questionText.textContent = pergunta.texto;
+      optionsGrid.innerHTML = '';
+      respostaSelecionada = null;
+      vocabBox.style.display = 'none';
+      questionBox.classList.remove('hidden');
+
+      pergunta.opcoes.forEach(op => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.textContent = op;
+        btn.addEventListener('click', () => selecionarResposta(op, btn));
+        optionsGrid.appendChild(btn);
+      });
+    }
+
+    function selecionarResposta(opcao, botao) {
+      respostaSelecionada = opcao;
+      document.querySelectorAll('.option-btn').forEach(btn => btn.classList.remove('selected'));
+      botao.classList.add('selected');
+      validarResposta();
+    }
+
+    function validarResposta() {
+      const pergunta = missaoAtual.perguntas[perguntaAtualIndex];
+      if (!respostaSelecionada || !pergunta) return;
+
+      const botoes = document.querySelectorAll('.option-btn');
+      botoes.forEach(btn => {
+        btn.disabled = true;
+        if (btn.textContent === pergunta.correta) btn.classList.add('correct');
+        if (btn.textContent === respostaSelecionada && respostaSelecionada !== pergunta.correta) btn.classList.add('wrong');
+      });
+
+      feedbackBox.style.display = 'block';
+
+      if (respostaSelecionada === pergunta.correta) {
+        acertos++;
+        feedbackBox.className = 'feedback-box feedback-success';
+        feedbackBox.textContent = 'Muito bem! Você acertou.';
+        setTito('Muito bem! Você acertou.');
+        setStatus('resposta correta. Avançando na trilha.');
+        renderTrailProgress();
+
+        setTimeout(() => {
+          perguntaAtualIndex++;
+          if (perguntaAtualIndex < missaoAtual.perguntas.length) {
+            renderPerguntaAtual();
+          } else {
+            finalizarMissao();
+          }
+        }, 1200);
+      } else {
+        feedbackBox.className = 'feedback-box feedback-error';
+        feedbackBox.textContent = 'Vamos pesquisar mais um pouco e tentar novamente.';
+        setTito('Vamos pesquisar mais um pouco e tentar novamente.');
+        setStatus('resposta incorreta. Use o apoio de palavra e pesquise novamente.');
+        mostrarApoio();
+        setTimeout(() => {
+          botoes.forEach(btn => {
+            btn.disabled = false;
+            btn.classList.remove('selected', 'wrong');
+          });
+          respostaSelecionada = null;
+        }, 1200);
+      }
+    }
+
+    function mostrarApoio() {
+      if (!missaoAtual) return;
+      const pergunta = missaoAtual.perguntas[perguntaAtualIndex];
+      if (!pergunta || !pergunta.apoio) return;
+      vocabTitle.textContent = `Palavra: ${pergunta.apoio.palavra}`;
+      vocabText.textContent = pergunta.apoio.explicacao;
+      vocabBox.style.display = 'block';
+    }
+
+    function finalizarMissao() {
+      questionBox.classList.add('hidden');
+      feedbackBox.style.display = 'block';
+      feedbackBox.className = 'feedback-box feedback-success';
+      feedbackBox.textContent = 'Parabéns! Você completou a missão.';
+      rewardBox.textContent = '⭐ Recompensa conquistada: missão concluída com sucesso.';
+      setTito('Parabéns! Você completou a missão.');
+      setStatus('missão concluída com sucesso.');
+    }
+
+    function ouvirPerguntaAtual() {
+      if (!missaoAtual) return;
+      const pergunta = missaoAtual.perguntas[perguntaAtualIndex];
+      if (!pergunta) return;
+      const texto = `${pergunta.titulo}. ${pergunta.texto}. Alternativas: ${pergunta.opcoes.join(', ')}.`;
+      falarTexto(texto);
+    }
+
+    trail1Btn.addEventListener('click', () => selecionarTrilha('trilha1'));
+    trail2Btn.addEventListener('click', () => selecionarTrilha('trilha2'));
+    searchBtn.addEventListener('click', buscarTema);
+    missionBtn.addEventListener('click', sortearMissao);
+    speakBtn.addEventListener('click', () => falarTexto(titoSpeech.textContent));
+    vocabBtn.addEventListener('click', mostrarApoio);
+    readQuestionBtn.addEventListener('click', ouvirPerguntaAtual);
+    readVocabBtn.addEventListener('click', () => falarTexto(vocabText.textContent));
+    closeVocabBtn.addEventListener('click', () => vocabBox.style.display = 'none');
+
+    searchInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter') buscarTema();
     });
 
-    missionBtn.addEventListener("click", sortearMissao);
-
-    voiceBtn.addEventListener("click", function () {
+    voiceBtn.addEventListener('click', function () {
       const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-
       if (!SpeechRecognition) {
-        alert("Use o Google Chrome para ativar a voz.");
+        alert('Use o Google Chrome para ativar a voz.');
         return;
       }
 
       const recognition = new SpeechRecognition();
-      recognition.lang = "pt-BR";
+      recognition.lang = 'pt-BR';
       recognition.interimResults = false;
       recognition.maxAlternatives = 3;
-
       recognition.start();
 
       recognition.onresult = function (event) {
-        let texto = event.results[0][0].transcript;
-        texto = texto.replace(/^um\s+/i, "").replace(/^uma\s+/i, "").trim();
-
+        const texto = event.results[0][0].transcript.trim();
         searchInput.value = texto;
-        buscar();
+        buscarTema();
       };
 
       recognition.onerror = function () {
-        statusEl.textContent = "Status: não consegui ouvir direito. Tente falar mais devagar.";
-        titoSpeech.textContent = "Não consegui ouvir direito. Vamos tentar de novo?";
+        setStatus('não consegui ouvir direito. Tente falar mais devagar.');
+        setTito('Não consegui ouvir direito. Vamos tentar de novo?');
       };
     });
+
+    selecionarTrilha('trilha1');
   </script>
 </body>
 </html>
