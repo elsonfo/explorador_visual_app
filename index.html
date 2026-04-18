@@ -660,7 +660,8 @@
               <button class="primary" id="searchBtn">Buscar</button>
               <button class="soft" id="voiceBtn">🎤 Falar</button>
               <button class="accent" id="missionBtn">🎲 Missão</button>
-              <button class="soft" id="speakBtn">🔊 Ouvir</button>
+              <button class="soft" id="speakBtn">🔊 Ouvir Tito</button>
+              <button class="soft" id="readResultBtn">🔊 Ouvir pesquisa</button>
             </div>
 
             <div class="examples" id="examplesBox"></div>
@@ -861,7 +862,7 @@
             perguntas: [
               { titulo: 'Pergunta 1', texto: 'Qual recurso impresso ajuda o aluno a calcar e colorir roupas?', opcoes: ['croqui base', 'tesoura', 'zíper'], correta: 'croqui base', apoio: { palavra: 'croqui base', explicacao: 'Croqui base é um desenho-modelo usado para criar e representar roupas.' } },
               { titulo: 'Pergunta 2', texto: 'O croqui base é usado para representar roupas, comida ou carros?', opcoes: ['roupas', 'comida', 'carros'], correta: 'roupas', apoio: { palavra: 'representar', explicacao: 'Representar é mostrar uma ideia por meio de desenho, imagem ou modelo.' } },
-              { titulo: 'Pergunta 3', text: 'O croqui base facilita desenho e pintura ou serve para cozinhar?', opcoes: ['desenho e pintura', 'cozinhar', 'nadar'], correta: 'desenho e pintura', apoio: { palavra: 'calcar', explicacao: 'Calcar é copiar um desenho usando um modelo por baixo ou por cima.' } }
+              { titulo: 'Pergunta 3', texto: 'O croqui base facilita desenho e pintura ou serve para cozinhar?', opcoes: ['desenho e pintura', 'cozinhar', 'nadar'], correta: 'desenho e pintura', apoio: { palavra: 'calcar', explicacao: 'Calcar é copiar um desenho usando um modelo por baixo ou por cima.' } }
             ]
           },
           {
@@ -918,6 +919,7 @@
     const missionBtn = document.getElementById('missionBtn');
     const voiceBtn = document.getElementById('voiceBtn');
     const speakBtn = document.getElementById('speakBtn');
+    const readResultBtn = document.getElementById('readResultBtn');
     const missionText = document.getElementById('missionText');
     const resultBox = document.getElementById('resultBox');
     const visualCard = document.getElementById('visualCard');
@@ -1092,6 +1094,21 @@
       }
     }
 
+    function ouvirResultadoPesquisa() {
+      if (resultBox.style.display === 'none') {
+        falarTexto('Faça uma pesquisa primeiro para eu ler a explicação.');
+        return;
+      }
+
+      const titulo = visualTitle.textContent.trim();
+      const descricao = resultText.textContent.trim();
+      const tags = Array.from(tagList.querySelectorAll('.tag')).map(tag => tag.textContent.trim()).join(', ');
+      const texto = tags
+        ? `${titulo}. ${descricao}. Palavras importantes: ${tags}.`
+        : `${titulo}. ${descricao}.`;
+      falarTexto(texto);
+    }
+
     function renderPerguntaAtual() {
       if (!missaoAtual) return;
       const pergunta = missaoAtual.perguntas[perguntaAtualIndex];
@@ -1211,6 +1228,7 @@
     searchBtn.addEventListener('click', buscarTema);
     missionBtn.addEventListener('click', sortearMissao);
     speakBtn.addEventListener('click', () => falarTexto(titoSpeech.textContent));
+    readResultBtn.addEventListener('click', ouvirResultadoPesquisa);
     vocabBtn.addEventListener('click', mostrarApoio);
     readQuestionBtn.addEventListener('click', ouvirPerguntaAtual);
     readVocabBtn.addEventListener('click', () => falarTexto(vocabText.textContent));
