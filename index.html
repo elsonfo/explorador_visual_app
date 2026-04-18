@@ -45,6 +45,8 @@
       padding: 26px;
     }
 
+    .hidden { display: none !important; }
+
     .title-row {
       display: flex;
       align-items: center;
@@ -68,6 +70,115 @@
       font-size: 1rem;
     }
 
+    .welcome-layout {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .welcome-box {
+      background: linear-gradient(135deg, #f5f0ff, #eef6ff);
+      border: 1px solid #e3d8ff;
+      border-radius: 26px;
+      padding: 24px;
+    }
+
+    .tito-big {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 14px;
+    }
+
+    .tito-big-avatar {
+      width: 180px;
+      height: 180px;
+      border-radius: 28px;
+      overflow: hidden;
+      background: #fff;
+      border: 2px solid #e3d8ff;
+      box-shadow: 0 10px 24px rgba(91, 33, 182, 0.10);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 4rem;
+      color: var(--accent-text);
+    }
+
+    .tito-big-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .tito-big-name {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: var(--accent-text);
+    }
+
+    .tito-big-speech {
+      background: #fff;
+      border: 1px solid #e3d8ff;
+      border-radius: 18px;
+      padding: 14px 16px;
+      font-size: 1.08rem;
+      font-weight: bold;
+      color: #274766;
+      max-width: 440px;
+    }
+
+    .mission-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .menu-mission-btn {
+      min-height: 104px;
+      border: 1px solid var(--border);
+      background: #fff;
+      border-radius: 22px;
+      padding: 18px;
+      cursor: pointer;
+      text-align: left;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    }
+
+    .menu-mission-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(36, 74, 116, 0.10);
+      border-color: #b9cff0;
+    }
+
+    .menu-mission-btn .icon {
+      font-size: 1.8rem;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .menu-mission-btn .title {
+      font-size: 1.08rem;
+      font-weight: bold;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .menu-mission-btn .desc {
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.4;
+    }
+
+    .menu-mission-btn.disabled {
+      opacity: 0.7;
+      cursor: default;
+      background: #f8fbff;
+    }
+
     .layout {
       display: grid;
       grid-template-columns: 1.15fr 0.85fr;
@@ -82,6 +193,24 @@
       padding: 20px;
     }
 
+    .top-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .back-btn {
+      border: none;
+      border-radius: 14px;
+      padding: 10px 14px;
+      background: #f4f8ff;
+      color: #24496f;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
     .tito-box {
       margin-bottom: 18px;
       display: flex;
@@ -94,9 +223,9 @@
     }
 
     .tito-avatar {
-      width: 68px;
-      height: 68px;
-      border-radius: 18px;
+      width: 84px;
+      height: 84px;
+      border-radius: 20px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -104,6 +233,8 @@
       border: 1px solid #e3d8ff;
       overflow: hidden;
       flex-shrink: 0;
+      font-size: 2rem;
+      color: var(--accent-text);
     }
 
     .tito-avatar img {
@@ -414,116 +545,184 @@
       font-weight: bold;
     }
 
-    .hidden { display: none; }
-
     @media (max-width: 920px) {
-      .layout { grid-template-columns: 1fr; }
+      .welcome-layout,
+      .layout,
+      .mission-grid,
+      .result-grid {
+        grid-template-columns: 1fr;
+      }
       .trail-card { position: static; }
       h1 { font-size: 2.2rem; }
-      .result-grid { grid-template-columns: 1fr; }
+      .tito-big-avatar { width: 150px; height: 150px; }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="app-shell">
-      <div class="title-row">
-        <div class="title-icon">🔎</div>
-        <div>
-          <h1>Explorador Visual Inteligente</h1>
-          <p class="subtitle">Versão 1 com trilhas, missão, pergunta com alternativas e apoio por voz.</p>
+      <section id="homeScreen">
+        <div class="title-row">
+          <div class="title-icon">🔎</div>
+          <div>
+            <h1>Explorador Visual Inteligente</h1>
+            <p class="subtitle">Escolha uma missão para começar a aprender.</p>
+          </div>
         </div>
-      </div>
 
-      <div class="layout">
-        <section class="panel">
-          <div class="tito-box">
-            <div class="tito-avatar">
-              <img src="tito.png" alt="Avatar do Tito" onerror="this.style.display='none'; this.parentElement.innerHTML='🤖'; this.parentElement.style.fontSize='2rem';">
+        <div class="welcome-layout">
+          <div class="welcome-box">
+            <div class="tito-big">
+              <div class="tito-big-avatar">
+                <img src="tito.png" alt="Avatar do Tito" onerror="this.style.display='none'; this.parentElement.innerHTML='🤖';">
+              </div>
+              <div class="tito-big-name">Tito</div>
+              <div class="tito-big-speech" id="homeSpeech">Olá! Escolha uma missão para começarmos juntos.</div>
+              <div class="actions" style="justify-content:center; margin-bottom:0;">
+                <button class="soft" id="homeSpeakBtn">🔊 Ouvir</button>
+              </div>
             </div>
-            <div>
-              <div class="tito-name">Tito</div>
-              <div class="tito-speech" id="titoSpeech">Olá! Escolha uma trilha para começarmos.</div>
+          </div>
+
+          <div>
+            <div class="section-title">Missões disponíveis</div>
+            <div class="mission-grid">
+              <button class="menu-mission-btn" data-open-trail="trilha1">
+                <span class="icon">🚗</span>
+                <div class="title">Missão 1 — Mobilidade e Tecnologia</div>
+                <div class="desc">Carro, carro autônomo e robô.</div>
+              </button>
+
+              <button class="menu-mission-btn" data-open-trail="trilha2">
+                <span class="icon">🍭</span>
+                <div class="title">Missão 2 — Venda e Cotidiano</div>
+                <div class="desc">Bala, picolé e dinheiro.</div>
+              </button>
+
+              <button class="menu-mission-btn" data-open-trail="trilha3">
+                <span class="icon">✂️</span>
+                <div class="title">Missão 3 — Modelagem e Costura</div>
+                <div class="desc">Em preparação para novas trilhas.</div>
+              </button>
+
+              <button class="menu-mission-btn disabled" type="button">
+                <span class="icon">⭐</span>
+                <div class="title">Missão 4 — Nova missão</div>
+                <div class="desc">Espaço reservado para expansão.</div>
+              </button>
+
+              <button class="menu-mission-btn disabled" type="button">
+                <span class="icon">🔒</span>
+                <div class="title">Missão 5 — Em construção</div>
+                <div class="desc">Novas ideias poderão entrar aqui.</div>
+              </button>
             </div>
           </div>
+        </div>
+      </section>
 
-          <div class="section-title">Escolha a trilha</div>
-          <div class="trail-selector">
-            <button class="trail-btn active" id="trail1Btn">Trilha 1 — Mobilidade e Tecnologia</button>
-            <button class="trail-btn" id="trail2Btn">Trilha 2 — Venda e Cotidiano</button>
+      <section id="appScreen" class="hidden">
+        <div class="title-row">
+          <div class="title-icon">🔎</div>
+          <div>
+            <h1>Explorador Visual Inteligente</h1>
+            <p class="subtitle">Versão 1 com trilhas, missão, pergunta com alternativas e apoio por voz.</p>
           </div>
+        </div>
 
-          <div class="section-title">Pesquisa guiada</div>
-          <input id="searchQuery" class="search-input" type="text" placeholder="Digite ou fale o tema da missão" />
+        <div class="layout">
+          <section class="panel">
+            <div class="top-actions">
+              <button class="back-btn" id="backHomeBtn">← Voltar para missões</button>
+            </div>
 
-          <div class="actions">
-            <button class="primary" id="searchBtn">Buscar</button>
-            <button class="soft" id="voiceBtn">🎤 Falar</button>
-            <button class="accent" id="missionBtn">🎲 Missão</button>
-            <button class="soft" id="speakBtn">🔊 Ouvir</button>
-          </div>
-
-          <div class="examples" id="examplesBox"></div>
-
-          <div class="mission-box" id="missionBox">
-            <div class="mission-title">Missão atual</div>
-            <div class="mission-text" id="missionText">Clique em “🎲 Missão” para sortear.</div>
-          </div>
-
-          <div class="result-box" id="resultBox">
-            <div class="result-title">Resultado da pesquisa</div>
-            <div class="result-grid">
-              <div class="visual-card" id="visualCard">
-                <div class="visual-emoji" id="visualEmoji">📘</div>
-                <div class="visual-title" id="visualTitle">Tema</div>
-                <div class="visual-subtitle">Representação visual do tema</div>
+            <div class="tito-box">
+              <div class="tito-avatar">
+                <img src="tito.png" alt="Avatar do Tito" onerror="this.style.display='none'; this.parentElement.innerHTML='🤖';">
               </div>
               <div>
-                <div class="result-text" id="resultText">A explicação simples aparecerá aqui.</div>
-                <div class="tag-list" id="tagList"></div>
+                <div class="tito-name">Tito</div>
+                <div class="tito-speech" id="titoSpeech">Olá! Escolha uma trilha para começarmos.</div>
               </div>
             </div>
-          </div>
 
-          <div class="question-box hidden" id="questionBox">
-            <div class="question-title" id="questionTitle">Pergunta 1</div>
-            <div class="question-text" id="questionText">A pergunta aparecerá aqui.</div>
-            <div class="actions" style="margin-top:10px; margin-bottom:0;">
-              <button class="soft" id="readQuestionBtn">🔊 Ouvir pergunta</button>
-              <button class="soft" id="vocabBtn">💡 Explicar palavra</button>
+            <div class="section-title">Escolha a trilha</div>
+            <div class="trail-selector">
+              <button class="trail-btn active" id="trail1Btn">Trilha 1 — Mobilidade e Tecnologia</button>
+              <button class="trail-btn" id="trail2Btn">Trilha 2 — Venda e Cotidiano</button>
             </div>
-            <div class="options-grid" id="optionsGrid"></div>
-          </div>
 
-          <div class="vocab-box" id="vocabBox">
-            <div class="vocab-title" id="vocabTitle">Palavra de apoio</div>
-            <div class="vocab-text" id="vocabText">A explicação da palavra aparecerá aqui.</div>
-            <div class="actions" style="margin-bottom:0;">
-              <button class="soft" id="readVocabBtn">🔊 Ouvir palavra</button>
-              <button class="soft" id="closeVocabBtn">Entendi</button>
+            <div class="section-title">Pesquisa guiada</div>
+            <input id="searchQuery" class="search-input" type="text" placeholder="Digite ou fale o tema da missão" />
+
+            <div class="actions">
+              <button class="primary" id="searchBtn">Buscar</button>
+              <button class="soft" id="voiceBtn">🎤 Falar</button>
+              <button class="accent" id="missionBtn">🎲 Missão</button>
+              <button class="soft" id="speakBtn">🔊 Ouvir</button>
             </div>
-          </div>
 
-          <div class="feedback-box" id="feedbackBox"></div>
-          <div class="status-box" id="statusBox">Status: aguardando início da trilha.</div>
-        </section>
+            <div class="examples" id="examplesBox"></div>
 
-        <aside class="panel trail-card">
-          <div class="trail-name" id="trailName">Trilha 1 — Mobilidade e Tecnologia</div>
-
-          <div class="dice-box">
-            <div class="dice-face" id="diceFace">?</div>
-            <div>
-              <div style="font-weight:bold; margin-bottom:4px;">Dado da missão</div>
-              <div style="color: var(--muted);">Clique em “🎲 Missão” para sortear a etapa atual.</div>
+            <div class="mission-box" id="missionBox">
+              <div class="mission-title">Missão atual</div>
+              <div class="mission-text" id="missionText">Clique em “🎲 Missão” para sortear.</div>
             </div>
-          </div>
 
-          <div class="trail-progress" id="trailProgress"></div>
+            <div class="result-box" id="resultBox">
+              <div class="result-title">Resultado da pesquisa</div>
+              <div class="result-grid">
+                <div class="visual-card" id="visualCard">
+                  <div class="visual-emoji" id="visualEmoji">📘</div>
+                  <div class="visual-title" id="visualTitle">Tema</div>
+                  <div class="visual-subtitle">Representação visual do tema</div>
+                </div>
+                <div>
+                  <div class="result-text" id="resultText">A explicação simples aparecerá aqui.</div>
+                  <div class="tag-list" id="tagList"></div>
+                </div>
+              </div>
+            </div>
 
-          <div class="reward-box" id="rewardBox">🏅 Recompensa: complete as 3 perguntas da missão para ganhar uma estrela.</div>
-        </aside>
-      </div>
+            <div class="question-box hidden" id="questionBox">
+              <div class="question-title" id="questionTitle">Pergunta 1</div>
+              <div class="question-text" id="questionText">A pergunta aparecerá aqui.</div>
+              <div class="actions" style="margin-top:10px; margin-bottom:0;">
+                <button class="soft" id="readQuestionBtn">🔊 Ouvir pergunta</button>
+                <button class="soft" id="vocabBtn">💡 Explicar palavra</button>
+              </div>
+              <div class="options-grid" id="optionsGrid"></div>
+            </div>
+
+            <div class="vocab-box" id="vocabBox">
+              <div class="vocab-title" id="vocabTitle">Palavra de apoio</div>
+              <div class="vocab-text" id="vocabText">A explicação da palavra aparecerá aqui.</div>
+              <div class="actions" style="margin-bottom:0;">
+                <button class="soft" id="readVocabBtn">🔊 Ouvir palavra</button>
+                <button class="soft" id="closeVocabBtn">Entendi</button>
+              </div>
+            </div>
+
+            <div class="feedback-box" id="feedbackBox"></div>
+            <div class="status-box" id="statusBox">Status: aguardando início da trilha.</div>
+          </section>
+
+          <aside class="panel trail-card">
+            <div class="trail-name" id="trailName">Trilha 1 — Mobilidade e Tecnologia</div>
+
+            <div class="dice-box">
+              <div class="dice-face" id="diceFace">?</div>
+              <div>
+                <div style="font-weight:bold; margin-bottom:4px;">Dado da missão</div>
+                <div style="color: var(--muted);">Clique em “🎲 Missão” para sortear a etapa atual.</div>
+              </div>
+            </div>
+
+            <div class="trail-progress" id="trailProgress"></div>
+            <div class="reward-box" id="rewardBox">🏅 Recompensa: complete as 3 perguntas da missão para ganhar uma estrela.</div>
+          </aside>
+        </div>
+      </section>
     </div>
   </div>
 
@@ -545,27 +744,9 @@
               cor: 'linear-gradient(135deg, #eefcff, #d8f4ff)'
             },
             perguntas: [
-              {
-                titulo: 'Pergunta 1',
-                texto: 'O carro anda na rua, no céu ou no mar?',
-                opcoes: ['rua', 'céu', 'mar'],
-                correta: 'rua',
-                apoio: { palavra: 'rua', explicacao: 'Rua é o lugar por onde carros passam.' }
-              },
-              {
-                titulo: 'Pergunta 2',
-                texto: 'O carro tem roda, asa ou barbatana?',
-                opcoes: ['roda', 'asa', 'barbatana'],
-                correta: 'roda',
-                apoio: { palavra: 'roda', explicacao: 'Roda é a parte redonda que ajuda o carro a andar.' }
-              },
-              {
-                titulo: 'Pergunta 3',
-                texto: 'O carro é um veículo, uma fruta ou um peixe?',
-                opcoes: ['veículo', 'fruta', 'peixe'],
-                correta: 'veículo',
-                apoio: { palavra: 'veículo', explicacao: 'Veículo é um meio de transporte.' }
-              }
+              { titulo: 'Pergunta 1', texto: 'O carro anda na rua, no céu ou no mar?', opcoes: ['rua', 'céu', 'mar'], correta: 'rua', apoio: { palavra: 'rua', explicacao: 'Rua é o lugar por onde carros passam.' } },
+              { titulo: 'Pergunta 2', texto: 'O carro tem roda, asa ou barbatana?', opcoes: ['roda', 'asa', 'barbatana'], correta: 'roda', apoio: { palavra: 'roda', explicacao: 'Roda é a parte redonda que ajuda o carro a andar.' } },
+              { titulo: 'Pergunta 3', texto: 'O carro é um veículo, uma fruta ou um peixe?', opcoes: ['veículo', 'fruta', 'peixe'], correta: 'veículo', apoio: { palavra: 'veículo', explicacao: 'Veículo é um meio de transporte.' } }
             ]
           },
           {
@@ -580,27 +761,9 @@
               cor: 'linear-gradient(135deg, #eef6ff, #dbeafe)'
             },
             perguntas: [
-              {
-                titulo: 'Pergunta 1',
-                texto: 'O carro autônomo anda sozinho, voando ou nadando?',
-                opcoes: ['sozinho', 'voando', 'nadando'],
-                correta: 'sozinho',
-                apoio: { palavra: 'autônomo', explicacao: 'Autônomo quer dizer que faz algo sozinho.' }
-              },
-              {
-                titulo: 'Pergunta 2',
-                texto: 'Ele usa tecnologia, areia ou folhas?',
-                opcoes: ['tecnologia', 'areia', 'folhas'],
-                correta: 'tecnologia',
-                apoio: { palavra: 'tecnologia', explicacao: 'Tecnologia é um recurso criado para ajudar pessoas.' }
-              },
-              {
-                titulo: 'Pergunta 3',
-                texto: 'O carro autônomo é um carro, um picolé ou um leão?',
-                opcoes: ['carro', 'picolé', 'leão'],
-                correta: 'carro',
-                apoio: { palavra: 'carro', explicacao: 'Carro é um veículo usado para transporte.' }
-              }
+              { titulo: 'Pergunta 1', texto: 'O carro autônomo anda sozinho, voando ou nadando?', opcoes: ['sozinho', 'voando', 'nadando'], correta: 'sozinho', apoio: { palavra: 'autônomo', explicacao: 'Autônomo quer dizer que faz algo sozinho.' } },
+              { titulo: 'Pergunta 2', texto: 'Ele usa tecnologia, areia ou folhas?', opcoes: ['tecnologia', 'areia', 'folhas'], correta: 'tecnologia', apoio: { palavra: 'tecnologia', explicacao: 'Tecnologia é um recurso criado para ajudar pessoas.' } },
+              { titulo: 'Pergunta 3', texto: 'O carro autônomo é um carro, um picolé ou um leão?', opcoes: ['carro', 'picolé', 'leão'], correta: 'carro', apoio: { palavra: 'carro', explicacao: 'Carro é um veículo usado para transporte.' } }
             ]
           },
           {
@@ -615,27 +778,9 @@
               cor: 'linear-gradient(135deg, #f1f1ff, #e2dcff)'
             },
             perguntas: [
-              {
-                titulo: 'Pergunta 1',
-                texto: 'O robô é uma máquina, uma planta ou uma fruta?',
-                opcoes: ['máquina', 'planta', 'fruta'],
-                correta: 'máquina',
-                apoio: { palavra: 'máquina', explicacao: 'Máquina é um aparelho criado para fazer alguma tarefa.' }
-              },
-              {
-                titulo: 'Pergunta 2',
-                texto: 'O robô ajuda em tarefas, voos de pássaro ou mergulhos no mar?',
-                opcoes: ['tarefas', 'voos de pássaro', 'mergulhos no mar'],
-                correta: 'tarefas',
-                apoio: { palavra: 'tarefas', explicacao: 'Tarefas são coisas que precisamos fazer.' }
-              },
-              {
-                titulo: 'Pergunta 3',
-                texto: 'O robô segue comandos, sementes ou sabores?',
-                opcoes: ['comandos', 'sementes', 'sabores'],
-                correta: 'comandos',
-                apoio: { palavra: 'comandos', explicacao: 'Comando é uma instrução para executar uma ação.' }
-              }
+              { titulo: 'Pergunta 1', texto: 'O robô é uma máquina, uma planta ou uma fruta?', opcoes: ['máquina', 'planta', 'fruta'], correta: 'máquina', apoio: { palavra: 'máquina', explicacao: 'Máquina é um aparelho criado para fazer alguma tarefa.' } },
+              { titulo: 'Pergunta 2', texto: 'O robô ajuda em tarefas, voos de pássaro ou mergulhos no mar?', opcoes: ['tarefas', 'voos de pássaro', 'mergulhos no mar'], correta: 'tarefas', apoio: { palavra: 'tarefas', explicacao: 'Tarefas são coisas que precisamos fazer.' } },
+              { titulo: 'Pergunta 3', texto: 'O robô segue comandos, sementes ou sabores?', opcoes: ['comandos', 'sementes', 'sabores'], correta: 'comandos', apoio: { palavra: 'comandos', explicacao: 'Comando é uma instrução para executar uma ação.' } }
             ]
           }
         ]
@@ -656,27 +801,9 @@
               cor: 'linear-gradient(135deg, #fff2f7, #ffe0ef)'
             },
             perguntas: [
-              {
-                titulo: 'Pergunta 1',
-                texto: 'A bala é doce, salgada ou metálica?',
-                opcoes: ['doce', 'salgada', 'metálica'],
-                correta: 'doce',
-                apoio: { palavra: 'doce', explicacao: 'Doce é um alimento com sabor açucarado.' }
-              },
-              {
-                titulo: 'Pergunta 2',
-                texto: 'A bala é comida, carro ou planeta?',
-                opcoes: ['comida', 'carro', 'planeta'],
-                correta: 'comida',
-                apoio: { palavra: 'comida', explicacao: 'Comida é algo que a pessoa pode comer.' }
-              },
-              {
-                titulo: 'Pergunta 3',
-                texto: 'A bala pode ter cor, asa ou motor?',
-                opcoes: ['cor', 'asa', 'motor'],
-                correta: 'cor',
-                apoio: { palavra: 'cor', explicacao: 'Cor é a aparência como vermelho, azul ou amarelo.' }
-              }
+              { titulo: 'Pergunta 1', texto: 'A bala é doce, salgada ou metálica?', opcoes: ['doce', 'salgada', 'metálica'], correta: 'doce', apoio: { palavra: 'doce', explicacao: 'Doce é um alimento com sabor açucarado.' } },
+              { titulo: 'Pergunta 2', texto: 'A bala é comida, carro ou planeta?', opcoes: ['comida', 'carro', 'planeta'], correta: 'comida', apoio: { palavra: 'comida', explicacao: 'Comida é algo que a pessoa pode comer.' } },
+              { titulo: 'Pergunta 3', texto: 'A bala pode ter cor, asa ou motor?', opcoes: ['cor', 'asa', 'motor'], correta: 'cor', apoio: { palavra: 'cor', explicacao: 'Cor é a aparência como vermelho, azul ou amarelo.' } }
             ]
           },
           {
@@ -691,27 +818,9 @@
               cor: 'linear-gradient(135deg, #eefcff, #d8f4ff)'
             },
             perguntas: [
-              {
-                titulo: 'Pergunta 1',
-                texto: 'O picolé é gelado, quente ou seco?',
-                opcoes: ['gelado', 'quente', 'seco'],
-                correta: 'gelado',
-                apoio: { palavra: 'gelado', explicacao: 'Gelado quer dizer muito frio.' }
-              },
-              {
-                titulo: 'Pergunta 2',
-                texto: 'O picolé é para comer, dirigir ou voar?',
-                opcoes: ['comer', 'dirigir', 'voar'],
-                correta: 'comer',
-                apoio: { palavra: 'comer', explicacao: 'Comer é colocar o alimento na boca.' }
-              },
-              {
-                titulo: 'Pergunta 3',
-                texto: 'O picolé pode ter sabor, roda ou asa?',
-                opcoes: ['sabor', 'roda', 'asa'],
-                correta: 'sabor',
-                apoio: { palavra: 'sabor', explicacao: 'Sabor é o gosto do alimento.' }
-              }
+              { titulo: 'Pergunta 1', texto: 'O picolé é gelado, quente ou seco?', opcoes: ['gelado', 'quente', 'seco'], correta: 'gelado', apoio: { palavra: 'gelado', explicacao: 'Gelado quer dizer muito frio.' } },
+              { titulo: 'Pergunta 2', texto: 'O picolé é para comer, dirigir ou voar?', opcoes: ['comer', 'dirigir', 'voar'], correta: 'comer', apoio: { palavra: 'comer', explicacao: 'Comer é colocar o alimento na boca.' } },
+              { titulo: 'Pergunta 3', texto: 'O picolé pode ter sabor, roda ou asa?', opcoes: ['sabor', 'roda', 'asa'], correta: 'sabor', apoio: { palavra: 'sabor', explicacao: 'Sabor é o gosto do alimento.' } }
             ]
           },
           {
@@ -726,32 +835,20 @@
               cor: 'linear-gradient(135deg, #eefde8, #daf7c9)'
             },
             perguntas: [
-              {
-                titulo: 'Pergunta 1',
-                texto: 'O dinheiro serve para comprar, nadar ou voar?',
-                opcoes: ['comprar', 'nadar', 'voar'],
-                correta: 'comprar',
-                apoio: { palavra: 'comprar', explicacao: 'Comprar é pegar algo dando dinheiro em troca.' }
-              },
-              {
-                titulo: 'Pergunta 2',
-                texto: 'Quem compra pode ser um cliente, um planeta ou um carro?',
-                opcoes: ['cliente', 'planeta', 'carro'],
-                correta: 'cliente',
-                apoio: { palavra: 'cliente', explicacao: 'Cliente é a pessoa que compra.' }
-              },
-              {
-                titulo: 'Pergunta 3',
-                texto: 'Comprar e vender fazem parte do cotidiano, do oceano ou do céu?',
-                opcoes: ['cotidiano', 'oceano', 'céu'],
-                correta: 'cotidiano',
-                apoio: { palavra: 'cotidiano', explicacao: 'Cotidiano são as coisas do dia a dia.' }
-              }
+              { titulo: 'Pergunta 1', texto: 'O dinheiro serve para comprar, nadar ou voar?', opcoes: ['comprar', 'nadar', 'voar'], correta: 'comprar', apoio: { palavra: 'comprar', explicacao: 'Comprar é pegar algo dando dinheiro em troca.' } },
+              { titulo: 'Pergunta 2', texto: 'Quem compra pode ser um cliente, um planeta ou um carro?', opcoes: ['cliente', 'planeta', 'carro'], correta: 'cliente', apoio: { palavra: 'cliente', explicacao: 'Cliente é a pessoa que compra.' } },
+              { titulo: 'Pergunta 3', texto: 'Comprar e vender fazem parte do cotidiano, do oceano ou do céu?', opcoes: ['cotidiano', 'oceano', 'céu'], correta: 'cotidiano', apoio: { palavra: 'cotidiano', explicacao: 'Cotidiano são as coisas do dia a dia.' } }
             ]
           }
         ]
       }
     };
+
+    const homeScreen = document.getElementById('homeScreen');
+    const appScreen = document.getElementById('appScreen');
+    const homeSpeech = document.getElementById('homeSpeech');
+    const homeSpeakBtn = document.getElementById('homeSpeakBtn');
+    const backHomeBtn = document.getElementById('backHomeBtn');
 
     const trail1Btn = document.getElementById('trail1Btn');
     const trail2Btn = document.getElementById('trail2Btn');
@@ -763,7 +860,6 @@
     const voiceBtn = document.getElementById('voiceBtn');
     const speakBtn = document.getElementById('speakBtn');
     const missionText = document.getElementById('missionText');
-    const missionBox = document.getElementById('missionBox');
     const resultBox = document.getElementById('resultBox');
     const visualCard = document.getElementById('visualCard');
     const visualEmoji = document.getElementById('visualEmoji');
@@ -793,7 +889,6 @@
     let perguntaAtualIndex = 0;
     let respostaSelecionada = null;
     let acertos = 0;
-    let ultimaBusca = '';
 
     function falarTexto(texto) {
       const synth = window.speechSynthesis;
@@ -811,6 +906,16 @@
 
     function setTito(texto) {
       titoSpeech.textContent = texto;
+    }
+
+    function showHome() {
+      homeScreen.classList.remove('hidden');
+      appScreen.classList.add('hidden');
+    }
+
+    function showApp() {
+      homeScreen.classList.add('hidden');
+      appScreen.classList.remove('hidden');
     }
 
     function renderExamples() {
@@ -897,9 +1002,7 @@
         return;
       }
 
-      ultimaBusca = termo;
       let info = null;
-
       if (missaoAtual && termo.toLowerCase().includes(missaoAtual.termo.toLowerCase())) {
         info = missaoAtual.info;
       } else {
@@ -1032,6 +1135,21 @@
       falarTexto(texto);
     }
 
+    document.querySelectorAll('[data-open-trail]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const key = btn.dataset.openTrail;
+        if (key === 'trilha3') {
+          homeSpeech.textContent = 'A Missão 3 está em preparação. Em breve ela estará pronta.';
+          falarTexto(homeSpeech.textContent);
+          return;
+        }
+        showApp();
+        selecionarTrilha(key);
+      });
+    });
+
+    homeSpeakBtn.addEventListener('click', () => falarTexto(homeSpeech.textContent));
+    backHomeBtn.addEventListener('click', showHome);
     trail1Btn.addEventListener('click', () => selecionarTrilha('trilha1'));
     trail2Btn.addEventListener('click', () => selecionarTrilha('trilha2'));
     searchBtn.addEventListener('click', buscarTema);
@@ -1052,7 +1170,6 @@
         alert('Use o Google Chrome para ativar a voz.');
         return;
       }
-
       const recognition = new SpeechRecognition();
       recognition.lang = 'pt-BR';
       recognition.interimResults = false;
@@ -1071,7 +1188,9 @@
       };
     });
 
-    selecionarTrilha('trilha1');
+    renderExamples();
+    renderTrailProgress();
+    showHome();
   </script>
 </body>
 </html>
