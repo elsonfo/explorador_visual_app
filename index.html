@@ -374,11 +374,26 @@
       margin-top: 14px;
     }
 
+    .option-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      align-items: stretch;
+    }
+
     .option-btn {
       text-align: left;
       background: #fff;
       border: 1px solid var(--border);
       color: var(--text);
+    }
+
+    .option-help-btn {
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      color: #9a3412;
+      min-width: 56px;
+      padding: 12px 12px;
     }
 
     .option-btn.selected {
@@ -1125,11 +1140,27 @@
       questionBox.classList.remove('hidden');
 
       pergunta.opcoes.forEach(op => {
+        const row = document.createElement('div');
+        row.className = 'option-row';
+
         const btn = document.createElement('button');
         btn.className = 'option-btn';
         btn.textContent = op;
         btn.addEventListener('click', () => selecionarResposta(op, btn));
-        optionsGrid.appendChild(btn);
+
+        const helpBtn = document.createElement('button');
+        helpBtn.className = 'option-help-btn';
+        helpBtn.type = 'button';
+        helpBtn.textContent = '💡';
+        helpBtn.setAttribute('aria-label', `Explicar ${op}`);
+        helpBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          explicarAlternativa(op);
+        });
+
+        row.appendChild(btn);
+        row.appendChild(helpBtn);
+        optionsGrid.appendChild(row);
       });
     }
 
@@ -1145,11 +1176,13 @@
       if (!respostaSelecionada || !pergunta) return;
 
       const botoes = document.querySelectorAll('.option-btn');
+      const botoesAjuda = document.querySelectorAll('.option-help-btn');
       botoes.forEach(btn => {
         btn.disabled = true;
         if (btn.textContent === pergunta.correta) btn.classList.add('correct');
         if (btn.textContent === respostaSelecionada && respostaSelecionada !== pergunta.correta) btn.classList.add('wrong');
       });
+      botoesAjuda.forEach(btn => btn.disabled = true);
 
       feedbackBox.style.display = 'block';
 
@@ -1180,6 +1213,7 @@
             btn.disabled = false;
             btn.classList.remove('selected', 'wrong');
           });
+          botoesAjuda.forEach(btn => btn.disabled = false);
           respostaSelecionada = null;
         }, 1200);
       }
@@ -1192,6 +1226,17 @@
       vocabTitle.textContent = `Palavra: ${pergunta.apoio.palavra}`;
       vocabText.textContent = pergunta.apoio.explicacao;
       vocabBox.style.display = 'block';
+    }
+
+    function explicarAlternativa(opcao) {
+      if (!missaoAtual) return;
+      const vocabulario = missaoAtual.vocabulario || {};
+      const explicacao = vocabulario[opcao] || `"${opcao}" é uma palavra da atividade. Converse com o professor para ampliar essa explicação.`;
+      vocabTitle.textContent = `Palavra: ${opcao}`;
+      vocabText.textContent = explicacao;
+      vocabBox.style.display = 'block';
+      setTito(`Vamos entender a palavra ${opcao}.`);
+      setStatus(`explicação aberta para a palavra ${opcao}.`);
     }
 
     function finalizarMissao() {
