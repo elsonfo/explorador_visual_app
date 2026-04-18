@@ -650,6 +650,7 @@
             <div class="trail-selector">
               <button class="trail-btn active" id="trail1Btn">Trilha 1 — Mobilidade e Tecnologia</button>
               <button class="trail-btn" id="trail2Btn">Trilha 2 — Venda e Cotidiano</button>
+              <button class="trail-btn" id="trail3Btn">Trilha 3 — Modelagem e Costura</button>
             </div>
 
             <div class="section-title">Pesquisa guiada</div>
@@ -841,6 +842,63 @@
             ]
           }
         ]
+      },
+      trilha3: {
+        nome: 'Trilha 3 — Modelagem e Costura',
+        exemplos: ['croqui base', 'canva', 'moodboard'],
+        missoes: [
+          {
+            dado: 1,
+            termo: 'croqui base',
+            fala: 'Sua missão é pesquisar sobre croqui base.',
+            info: {
+              titulo: 'Croqui base',
+              texto: 'O croqui base é um desenho usado como modelo para calcar, colorir e representar roupas de moda.',
+              curiosidades: ['desenho-base', 'ajuda a representar roupas', 'apoio visual'],
+              emoji: '👗',
+              cor: 'linear-gradient(135deg, #fff3f8, #ffe3ef)'
+            },
+            perguntas: [
+              { titulo: 'Pergunta 1', texto: 'Qual recurso impresso ajuda o aluno a calcar e colorir roupas?', opcoes: ['croqui base', 'tesoura', 'zíper'], correta: 'croqui base', apoio: { palavra: 'croqui base', explicacao: 'Croqui base é um desenho-modelo usado para criar e representar roupas.' } },
+              { titulo: 'Pergunta 2', texto: 'O croqui base é usado para representar roupas, comida ou carros?', opcoes: ['roupas', 'comida', 'carros'], correta: 'roupas', apoio: { palavra: 'representar', explicacao: 'Representar é mostrar uma ideia por meio de desenho, imagem ou modelo.' } },
+              { titulo: 'Pergunta 3', text: 'O croqui base facilita desenho e pintura ou serve para cozinhar?', opcoes: ['desenho e pintura', 'cozinhar', 'nadar'], correta: 'desenho e pintura', apoio: { palavra: 'calcar', explicacao: 'Calcar é copiar um desenho usando um modelo por baixo ou por cima.' } }
+            ]
+          },
+          {
+            dado: 2,
+            termo: 'canva',
+            fala: 'Sua missão é pesquisar sobre Canva.',
+            info: {
+              titulo: 'Canva',
+              texto: 'O Canva é uma ferramenta digital usada para criar artes, posts e organizar visualmente conteúdos de redes sociais.',
+              curiosidades: ['ferramenta digital', 'cria posts', 'organiza o feed'],
+              emoji: '🖼️',
+              cor: 'linear-gradient(135deg, #eefcff, #d8f4ff)'
+            },
+            perguntas: [
+              { titulo: 'Pergunta 1', texto: 'Qual ferramenta digital pode ser usada para criar um feed com 6 posts?', opcoes: ['Canva', 'agulha', 'ferro'], correta: 'Canva', apoio: { palavra: 'Canva', explicacao: 'Canva é um aplicativo e site usado para criar imagens, posts e materiais visuais.' } },
+              { titulo: 'Pergunta 2', texto: 'O Canva é usado para criar imagens, costurar tecido ou lavar roupa?', opcoes: ['criar imagens', 'costurar tecido', 'lavar roupa'], correta: 'criar imagens', apoio: { palavra: 'feed', explicacao: 'Feed é o conjunto de posts que aparece organizado em uma rede social.' } },
+              { titulo: 'Pergunta 3', texto: 'O Canva é uma ferramenta digital, um alimento ou um sapato?', opcoes: ['ferramenta digital', 'alimento', 'sapato'], correta: 'ferramenta digital', apoio: { palavra: 'digital', explicacao: 'Digital quer dizer que funciona no computador, celular ou tablet.' } }
+            ]
+          },
+          {
+            dado: 3,
+            termo: 'moodboard',
+            fala: 'Sua missão é pesquisar sobre moodboard.',
+            info: {
+              titulo: 'Moodboard',
+              texto: 'Moodboard é um painel visual com imagens, cores e referências usado para organizar ideias e tendências.',
+              curiosidades: ['painel visual', 'cores e referências', 'ajuda na criação'],
+              emoji: '🎨',
+              cor: 'linear-gradient(135deg, #f4f0ff, #e4dcff)'
+            },
+            perguntas: [
+              { titulo: 'Pergunta 1', texto: 'Qual painel visual ajuda a identificar tendências com imagens e referências?', opcoes: ['moodboard', 'botão', 'linha'], correta: 'moodboard', apoio: { palavra: 'moodboard', explicacao: 'Moodboard é um painel com imagens, cores e ideias para inspirar uma criação.' } },
+              { titulo: 'Pergunta 2', texto: 'O moodboard organiza ideias de moda, trânsito ou cozinha?', opcoes: ['moda', 'trânsito', 'cozinha'], correta: 'moda', apoio: { palavra: 'tendência', explicacao: 'Tendência é uma ideia, estilo ou direção que está aparecendo com força em um período.' } },
+              { titulo: 'Pergunta 3', texto: 'O moodboard usa imagens e cores ou usa parafusos e martelo?', opcoes: ['imagens e cores', 'parafusos e martelo', 'água e sabão'], correta: 'imagens e cores', apoio: { palavra: 'painel visual', explicacao: 'Painel visual é uma organização de imagens e elementos para ajudar a compreender uma ideia.' } }
+            ]
+          }
+        ]
       }
     };
 
@@ -852,6 +910,7 @@
 
     const trail1Btn = document.getElementById('trail1Btn');
     const trail2Btn = document.getElementById('trail2Btn');
+    const trail3Btn = document.getElementById('trail3Btn');
     const trailName = document.getElementById('trailName');
     const examplesBox = document.getElementById('examplesBox');
     const searchInput = document.getElementById('searchQuery');
@@ -954,6 +1013,7 @@
       trilhaAtualKey = key;
       trail1Btn.classList.toggle('active', key === 'trilha1');
       trail2Btn.classList.toggle('active', key === 'trilha2');
+      trail3Btn.classList.toggle('active', key === 'trilha3');
       trailName.textContent = trilhas[key].nome;
       resetMissaoUI();
       renderExamples();
@@ -1138,11 +1198,6 @@
     document.querySelectorAll('[data-open-trail]').forEach(btn => {
       btn.addEventListener('click', () => {
         const key = btn.dataset.openTrail;
-        if (key === 'trilha3') {
-          homeSpeech.textContent = 'A Missão 3 está em preparação. Em breve ela estará pronta.';
-          falarTexto(homeSpeech.textContent);
-          return;
-        }
         showApp();
         selecionarTrilha(key);
       });
@@ -1152,6 +1207,7 @@
     backHomeBtn.addEventListener('click', showHome);
     trail1Btn.addEventListener('click', () => selecionarTrilha('trilha1'));
     trail2Btn.addEventListener('click', () => selecionarTrilha('trilha2'));
+    trail3Btn.addEventListener('click', () => selecionarTrilha('trilha3'));
     searchBtn.addEventListener('click', buscarTema);
     missionBtn.addEventListener('click', sortearMissao);
     speakBtn.addEventListener('click', () => falarTexto(titoSpeech.textContent));
