@@ -620,10 +620,10 @@
                 <div class="desc">Em preparação para novas trilhas.</div>
               </button>
 
-              <button class="menu-mission-btn disabled" type="button">
-                <span class="icon">⭐</span>
-                <div class="title">Missão 4 — Nova missão</div>
-                <div class="desc">Espaço reservado para expansão.</div>
+              <button class="menu-mission-btn" data-open-trail="trilha4">
+                <span class="icon">🧊</span>
+                <div class="title">Missão 4 — Formas e Cubos no Tinkercad</div>
+                <div class="desc">Formas, cores e criação de 4 cubos coloridos.</div>
               </button>
 
               <button class="menu-mission-btn disabled" type="button">
@@ -666,6 +666,7 @@
               <button class="trail-btn active" id="trail1Btn">Trilha 1 — Mobilidade e Tecnologia</button>
               <button class="trail-btn" id="trail2Btn">Trilha 2 — Venda e Cotidiano</button>
               <button class="trail-btn" id="trail3Btn">Trilha 3 — Modelagem e Costura</button>
+              <button class="trail-btn" id="trail4Btn">Trilha 4 — Formas e Cubos no Tinkercad</button>
             </div>
 
             <div class="section-title">Pesquisa guiada</div>
@@ -954,6 +955,95 @@
             ]
           }
         ]
+      },
+      trilha4: {
+        nome: 'Trilha 4 — Formas e Cubos no Tinkercad',
+        exemplos: ['círculo', 'cubo', 'Tinkercad'],
+        missoes: [
+          {
+            dado: 1,
+            termo: 'formas',
+            fala: 'Sua missão é aprender formas para usar no Tinkercad.',
+            info: {
+              titulo: 'Formas',
+              texto: 'As formas ajudam a construir desenhos e objetos. Nesta missão vamos reconhecer círculo, quadrado, triângulo e cubo.',
+              curiosidades: ['círculo', 'quadrado', 'triângulo', 'cubo'],
+              emoji: '🔷',
+              cor: 'linear-gradient(135deg, #eef6ff, #dbeafe)'
+            },
+            vocabulario: {
+              'círculo': 'Círculo é uma forma redonda.',
+              'quadrado': 'Quadrado é uma forma com quatro lados iguais.',
+              'triângulo': 'Triângulo é uma forma com três lados.',
+              'cubo': 'Cubo é uma forma 3D parecida com uma caixa.',
+              'linha': 'Linha é um traço comprido e fino.',
+              'redonda': 'Redonda quer dizer sem pontas, como uma bola.',
+              'três lados': 'Três lados quer dizer que a forma tem três partes retas.',
+              'caixa': 'Caixa é um objeto com lados que guarda coisas.'
+            },
+            perguntas: [
+              { titulo: 'Pergunta 1', texto: 'Qual forma é redonda?', opcoes: ['círculo', 'quadrado', 'triângulo'], correta: 'círculo', apoio: { palavra: 'círculo', explicacao: 'Círculo é uma forma redonda.' } },
+              { titulo: 'Pergunta 2', texto: 'Qual forma tem três lados?', opcoes: ['triângulo', 'círculo', 'linha'], correta: 'triângulo', apoio: { palavra: 'triângulo', explicacao: 'Triângulo é uma forma com três lados.' } },
+              { titulo: 'Pergunta 3', texto: 'Qual forma parece uma caixa?', opcoes: ['cubo', 'círculo', 'quadrado'], correta: 'cubo', apoio: { palavra: 'cubo', explicacao: 'Cubo é uma forma 3D parecida com uma caixa.' } }
+            ]
+          },
+          {
+            dado: 2,
+            termo: 'cores',
+            fala: 'Sua missão é aprender cores para usar nos cubos.',
+            info: {
+              titulo: 'Cores',
+              texto: 'As cores ajudam a diferenciar objetos. Vamos usar azul, vermelho, verde e amarelo para criar cubos coloridos.',
+              curiosidades: ['azul', 'vermelho', 'verde', 'amarelo'],
+              emoji: '🎨',
+              cor: 'linear-gradient(135deg, #fff8db, #fde68a)'
+            },
+            vocabulario: {
+              'azul': 'Azul é uma cor parecida com a cor do céu em dia claro.',
+              'vermelho': 'Vermelho é uma cor forte, como a de uma maçã vermelha.',
+              'verde': 'Verde é uma cor parecida com folhas e grama.',
+              'amarelo': 'Amarelo é uma cor parecida com o sol e com a banana madura.',
+              'cor': 'Cor é o jeito como vemos visualmente um objeto.',
+              'cubo': 'Cubo é uma forma 3D parecida com uma caixa.',
+              'sim': 'Sim quer dizer resposta positiva.',
+              'não': 'Não quer dizer resposta negativa.'
+            },
+            perguntas: [
+              { titulo: 'Pergunta 1', texto: 'Qual destas é uma cor?', opcoes: ['azul', 'cubo', 'roda'], correta: 'azul', apoio: { palavra: 'azul', explicacao: 'Azul é uma cor parecida com a cor do céu.' } },
+              { titulo: 'Pergunta 2', texto: 'O cubo pode ter cor?', opcoes: ['sim', 'não', 'só no papel'], correta: 'sim', apoio: { palavra: 'cor', explicacao: 'Cor é o jeito como vemos visualmente um objeto.' } },
+              { titulo: 'Pergunta 3', texto: 'No Tinkercad, podemos fazer cubos de cores diferentes?', opcoes: ['sim', 'não', 'só preto'], correta: 'sim', apoio: { palavra: 'diferentes', explicacao: 'Diferentes quer dizer não iguais.' } }
+            ]
+          },
+          {
+            dado: 3,
+            termo: 'tinkercad',
+            fala: 'Sua missão é criar 4 cubos coloridos no Tinkercad.',
+            info: {
+              titulo: 'Tinkercad',
+              texto: 'Tinkercad é um programa para criar objetos em 3D. Nesta missão, o desafio é criar 4 cubos com cores diferentes.',
+              curiosidades: ['arrastar', 'copiar', 'mudar cor', 'criar 3D'],
+              emoji: '🧊',
+              cor: 'linear-gradient(135deg, #eefcff, #d8f4ff)'
+            },
+            vocabulario: {
+              'Tinkercad': 'Tinkercad é um programa usado para criar objetos em 3D.',
+              'arrastar': 'Arrastar é clicar e mover um objeto na tela.',
+              'cozinhar': 'Cozinhar é preparar alimentos.',
+              'nadar': 'Nadar é se movimentar na água.',
+              'mudar a cor': 'Mudar a cor é escolher outra cor para o objeto.',
+              'apagar tudo': 'Apagar tudo é retirar os objetos da tela.',
+              'desligar o computador': 'Desligar o computador é encerrar o uso da máquina.',
+              '4 cubos com cores diferentes': 'Quatro cubos com cores diferentes quer dizer criar quatro caixas 3D, cada uma com uma cor.',
+              '1 bolo': 'Bolo é um alimento doce assado.',
+              '3 círculos': 'Três círculos são três formas redondas.'
+            },
+            perguntas: [
+              { titulo: 'Pergunta 1', texto: 'No Tinkercad, para criar um objeto, eu posso arrastar, cozinhar ou nadar?', opcoes: ['arrastar', 'cozinhar', 'nadar'], correta: 'arrastar', apoio: { palavra: 'arrastar', explicacao: 'Arrastar é clicar e mover um objeto na tela.' } },
+              { titulo: 'Pergunta 2', texto: 'Para deixar os cubos diferentes, eu posso mudar a cor, apagar tudo ou desligar o computador?', opcoes: ['mudar a cor', 'apagar tudo', 'desligar o computador'], correta: 'mudar a cor', apoio: { palavra: 'mudar a cor', explicacao: 'Mudar a cor é escolher outra cor para o objeto.' } },
+              { titulo: 'Pergunta 3', texto: 'O desafio final é criar 4 cubos com cores diferentes, 1 bolo ou 3 círculos?', opcoes: ['4 cubos com cores diferentes', '1 bolo', '3 círculos'], correta: '4 cubos com cores diferentes', apoio: { palavra: '4 cubos com cores diferentes', explicacao: 'Quatro cubos com cores diferentes quer dizer criar quatro caixas 3D, cada uma com uma cor.' } }
+            ]
+          }
+        ]
       }
     };
 
@@ -966,6 +1056,7 @@
     const trail1Btn = document.getElementById('trail1Btn');
     const trail2Btn = document.getElementById('trail2Btn');
     const trail3Btn = document.getElementById('trail3Btn');
+    const trail4Btn = document.getElementById('trail4Btn');
     const trailName = document.getElementById('trailName');
     const examplesBox = document.getElementById('examplesBox');
     const searchInput = document.getElementById('searchQuery');
@@ -1070,6 +1161,7 @@
       trail1Btn.classList.toggle('active', key === 'trilha1');
       trail2Btn.classList.toggle('active', key === 'trilha2');
       trail3Btn.classList.toggle('active', key === 'trilha3');
+      trail4Btn.classList.toggle('active', key === 'trilha4');
       trailName.textContent = trilhas[key].nome;
       resetMissaoUI();
       renderExamples();
@@ -1309,6 +1401,7 @@
     trail1Btn.addEventListener('click', () => selecionarTrilha('trilha1'));
     trail2Btn.addEventListener('click', () => selecionarTrilha('trilha2'));
     trail3Btn.addEventListener('click', () => selecionarTrilha('trilha3'));
+    trail4Btn.addEventListener('click', () => selecionarTrilha('trilha4'));
     searchBtn.addEventListener('click', buscarTema);
     missionBtn.addEventListener('click', sortearMissao);
     speakBtn.addEventListener('click', () => falarTexto(titoSpeech.textContent));
